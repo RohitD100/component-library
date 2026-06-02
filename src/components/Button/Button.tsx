@@ -4,6 +4,7 @@ type ButtonProps={
     size?: "lg" | "sm" | "md"
     className?:string;
     loading?:boolean;
+    onClick?:()=> void;
 }
 
 const Button = ({
@@ -12,9 +13,11 @@ const Button = ({
     className,
     children,
     loading,
+    onClick
 }: ButtonProps) => {
     return (
-        <div
+        <button
+        onClick={onClick}
             className={`
     ${variant === "light" ? "bg-white text-black" : ""}
     ${variant === "dark" ? "bg-black text-white" : ""}
@@ -27,7 +30,7 @@ const Button = ({
     `}
         >
             {loading ? "Loading..." : children}
-        </div>
+        </button>
     );
 };
 
