@@ -1,26 +1,17 @@
-type SpinnerProps = {
-    size?: number;
-    color?: string;
-    trackColor?: string;
-    thickness?: number;
-    speed?: number;
-    className?: string;
-    style?: React.CSSProperties;
-};
+import type { SpinnerProps } from "./type";
+
 export default function Spinner({
     size = 32,
     color = "#6366f1",
     trackColor = "#e5e7eb",
     thickness = 4,
     speed = 0.8,
-    className = "",
     style = {},
 }:SpinnerProps) {
     return (
         <div
             role="status"
             aria-label="Loading"
-            className={className}
             style={{
                 width: size,
                 height: size,
