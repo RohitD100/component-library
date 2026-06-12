@@ -1,9 +1,24 @@
+import React from "react";
+
 type FooterProps = {
-    size: "sm" | "md" | "lg";
-    theme: "light" | "dark";
+    size?: "sm" | "md" | "lg";
+    theme?: "light" | "dark";
     links: { label: string; url: string }[];
     logoUrl: string;
     disclaimer: string;
+    className?: string;
+    style?: React.CSSProperties;
+    bgColor?: string;
+    textColor?: string;
+    linkColor?: string;
+    padding?: string | number;
+    logoHeight?: string | number;
+};
+
+const sizePadding: Record<string, string> = {
+    sm: "10px",
+    md: "20px",
+    lg: "30px",
 };
 
 const Footer = ({
@@ -12,21 +27,34 @@ const Footer = ({
     links,
     logoUrl,
     disclaimer,
+    className = "",
+    style = {},
+    bgColor,
+    textColor,
+    linkColor,
+    padding,
+    logoHeight,
 }: FooterProps) => {
+    const resolvedTextColor =
+        textColor || (theme === "light" ? "black" : "white");
+    const resolvedLinkColor = linkColor || resolvedTextColor;
+
     return (
         <footer
+            className={className}
             style={{
-                padding:
-                    size === "sm" ? "10px" : size === "md" ? "20px" : "30px",
-                backgroundColor: theme === "light" ? "white" : "black",
-                color: theme === "light" ? "black" : "white",
+                padding: padding ?? sizePadding[size],
+                backgroundColor:
+                    bgColor || (theme === "light" ? "white" : "black"),
+                color: resolvedTextColor,
                 textAlign: "center",
+                ...style,
             }}
         >
             <img
                 src={logoUrl}
                 alt="Logo"
-                style={{ height: "50px", marginBottom: "10px" }}
+                style={{ height: logoHeight ?? "50px", marginBottom: "10px" }}
             />
             <nav>
                 {links.map((link, index) => (
@@ -35,7 +63,7 @@ const Footer = ({
                         href={link.url}
                         style={{
                             margin: "0 10px",
-                            color: theme === "light" ? "black" : "white",
+                            color: resolvedLinkColor,
                             textDecoration: "none",
                         }}
                     >
