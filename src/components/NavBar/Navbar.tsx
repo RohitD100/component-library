@@ -1,52 +1,20 @@
-import React from "react";
+import { sizePadding } from "./navbarStyle";
+import type { NavbarProps } from "./type";
 
-type NavbarProps = {
-    size?: "small" | "medium" | "large";
-    theme?: "light" | "dark";
-    links: { label: string; href: string }[];
-    logo?: string;
-    className?: string;
-    style?: React.CSSProperties;
-    bgColor?: string;
-    textColor?: string;
-    linkColor?: string;
-    padding?: string | number;
-    logoSize?: string | number;
-    gap?: string | number;
-};
-
-const sizePadding: Record<string, string> = {
-    small: "5px",
-    medium: "8px",
-    large: "10px",
-};
 
 const Navbar = ({
     size = "medium",
     theme = "light",
     links,
     logo,
-    className = "",
     style = {},
-    bgColor,
-    textColor,
-    linkColor,
-    padding,
-    logoSize,
-    gap,
 }: NavbarProps) => {
-    const resolvedTextColor =
-        textColor || (theme === "dark" ? "white" : "black");
-    const resolvedLinkColor = linkColor || resolvedTextColor;
-
     return (
         <nav
-            className={className}
             style={{
-                padding: padding ?? sizePadding[size],
-                backgroundColor:
-                    bgColor || (theme === "dark" ? "black" : "white"),
-                color: resolvedTextColor,
+                padding: sizePadding[size],
+                backgroundColor: theme === "dark" ? "black" : "white",
+                color: theme === "dark" ? "white" : "black",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
@@ -58,25 +26,19 @@ const Navbar = ({
                     src={logo}
                     alt="Logo"
                     style={{
-                        height: logoSize ?? "50px",
-                        width: logoSize ?? "50px",
+                        height: "50px",
+                        width: "50px",
                         objectFit: "contain",
                     }}
                 />
             )}
-            <ul
-                style={{
-                    listStyle: "none",
-                    display: "flex",
-                    gap: gap ?? "20px",
-                }}
-            >
+            <ul style={{ listStyle: "none", display: "flex", gap: "20px" }}>
                 {links.map((link, index) => (
                     <li key={index}>
                         <a
                             href={link.href}
                             style={{
-                                color: resolvedLinkColor,
+                                color: theme === "dark" ? "white" : "black",
                                 textDecoration: "none",
                             }}
                         >
