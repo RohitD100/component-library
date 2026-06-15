@@ -13,15 +13,7 @@ const Form = ({
         <form
             onSubmit={onSubmit}
             style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "1rem",
                 width: sizeWidths[size],
-                padding: "24px",
-                backgroundColor: "white",
-                border: "1px solid gray",
-                borderRadius: "12px",
-                margin: "0 auto",
                 ...style,
             }}
         >
