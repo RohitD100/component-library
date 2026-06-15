@@ -4,8 +4,20 @@ export const sizeStyles: Record<string, React.CSSProperties> = {
     lg: { padding: "15px 30px", fontSize: "16px" },
 };
 
-export const variantColors: Record<string, string> = {
-    primary: "linear-gradient(to right, #a855f7, #06b6d4)",
-    secondary: "#6c757d",
-    danger: "#dc3545",
+export const variantColors: Record<
+    string,
+    { background: string; text: string }
+> = {
+    primary: {
+        background: "linear-gradient(to right, #a855f7, #06b6d4)",
+        text: "#ffffff",
+    },
+    secondary: {
+        background: "#6c757d",
+        text: "#ffffff",
+    },
+    danger: {
+        background: "#dc3545",
+        text: "#ffffff",
+    },
 };

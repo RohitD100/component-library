@@ -16,9 +16,8 @@ const Button = ({
                 disabled={disabled}
                 style={{
                     ...sizeStyles[size],
-                    backgroundColor: variantColors[variant],
-                    background:variantColors[variant],
-                    color: "#fff",
+                    background: variantColors[variant].background,
+                    color: variantColors[variant].text,
                     ...styles,
                 }}
             >
