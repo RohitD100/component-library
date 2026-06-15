@@ -15,7 +15,6 @@ const Footer = ({
                 padding: sizePadding[size],
                 backgroundColor: theme === "light" ? "white" : "black",
                 color: theme === "light" ? "black" : "white",
-                textAlign: "center",
                 ...style,
             }}
         >

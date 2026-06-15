@@ -9,6 +9,7 @@ const App = () => {
               links={[{ label: "Privacy", url: "/privacy" }]}
               logoUrl="/logo.png"
               disclaimer="© 2026 MyApp"
+              style={{textAlign:"center"}}
           />
       </div>
   );
