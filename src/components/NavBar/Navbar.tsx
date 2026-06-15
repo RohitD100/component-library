@@ -15,9 +15,6 @@ const Navbar = ({
                 padding: sizePadding[size],
                 backgroundColor: theme === "dark" ? "black" : "white",
                 color: theme === "dark" ? "white" : "black",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
                 ...style,
             }}
         >
