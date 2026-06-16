@@ -6,18 +6,29 @@ export const sizeStyles: Record<string, React.CSSProperties> = {
 
 export const variantColors: Record<
     string,
-    { background: string; text: string }
+    { background: string; text: string; hover: string } 
 > = {
     primary: {
         background: "linear-gradient(to right, #a855f7, #06b6d4)",
+        hover: "linear-gradient(to right, #9333ea, #0891b2)",   
         text: "#ffffff",
     },
     secondary: {
         background: "#6c757d",
+        hover: "#5a6268",
         text: "#ffffff",
     },
     danger: {
         background: "#dc3545",
+        hover: "#bb2d3b",
         text: "#ffffff",
     },
+};
+
+export const baseButtonStyle: React.CSSProperties = {
+    border: "none",           
+    outline: "none",          
+    cursor: "pointer",
+    borderRadius: "6px",
+    transition: "opacity 0.2s, box-shadow 0.2s",
 };
