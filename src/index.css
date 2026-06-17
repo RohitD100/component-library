@@ -1,4 +1,6 @@
-/*/* CIRCULAR LOADER STYLES */
+@import "tailwindcss";
+
+/* CIRCULAR LOADER STYLES */
 
 .loader-wrapper {
   width: 100%;
@@ -84,7 +86,7 @@
   }
 }
 
-/*/* LINEAR LOADER STYLES */
+/* LINEAR LOADER STYLES */
 
 .linear-loader-wrapper {
   width: 100%;
@@ -100,12 +102,9 @@
   width: 40%;
   height: 100%;
   border-radius: 999px;
-
   background: linear-gradient(90deg, #7415e3, #3d69de, #32b1ee, #7415e3);
-
   background-size: 200% 100%;
   animation: moveBar 1.2s linear infinite;
-
   box-shadow:
     0 0 10px rgba(116, 21, 227, 0.5),
     0 0 18px rgba(50, 177, 238, 0.4);

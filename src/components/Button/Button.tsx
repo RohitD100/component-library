@@ -1,30 +1,25 @@
-import { sizeStyles, variantColors } from "./butonStyling";
+import { baseButtonStyle, sizeStyles, variantStyles } from "./butonStyling";
 import type { ButtonProps } from "./types";
 
 const Button = ({
     size = "md",
     variant = "primary",
+    type = "button",
     content,
     onClick,
     disabled = false,
+    className = "",
     styles = {},
-}: ButtonProps) => {
-    return (
-        <>
-            <button
-                onClick={onClick}
-                disabled={disabled}
-                style={{
-                    ...sizeStyles[size],
-                    background: variantColors[variant].background,
-                    color: variantColors[variant].text,
-                    ...styles,
-                }}
-            >
-                {content}
-            </button>
-        </>
-    );
-};
+}: ButtonProps) => (
+    <button
+        type={type}
+        onClick={onClick}
+        disabled={disabled}
+        className={`${baseButtonStyle} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`}
+        style={styles}
+    >
+        {content}
+    </button>
+);
 
 export default Button;
