@@ -1,19 +1,26 @@
 import React from "react";
 
-export type InputProps = {
+export type InputFieldProps = {
     label: string;
     name: string;
     type?: string;
     placeholder?: string;
     value: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    disabled?: boolean;
+    leftIcon?: React.ReactNode;
+    rightIcon?: React.ReactNode;
+    onRightIconClick?: () => void;
+    error?: string;
+    className?: string;
 };
 
 export type FormProps = {
     onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-    children: React.ReactNode;
+    children?: React.ReactNode;
     size?: "sm" | "md" | "lg";
-    inputProps?: InputProps[];
+    inputProps?: InputFieldProps[];
     title?: string;
+    className?: string;
     style?: React.CSSProperties;
 };

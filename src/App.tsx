@@ -1,54 +1,46 @@
+import { useState } from "react";
 import Form from "./components/Form/Form";
 
 const App = () => {
+    const [showPassword, setShowPassword] = useState(false);
+
     return (
-        <div>
+        <div className="min-h-screen flex items-center justify-center bg-gray-900">
             <Form
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    alert("Form submitted!");
+                title="YaraCircle Sign In"
+                size="md"
+                onSubmit={(e) => e.preventDefault()}
+                style={{
+                    border: "1px solid white",
+                    padding: "60px 40px",
                 }}
-                title="Login Form"
+                className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 sm:p-8 border border-white/20 shadow-2xl"
                 inputProps={[
                     {
-                        label: "Username",
-                        name: "username",
+                        label: "Email or YaraID",
+                        name: "identifier",
                         type: "text",
-                        placeholder: "Enter your username",
+                        placeholder: "you@example.com or @yourhandle",
                         value: "",
                         onChange: () => {},
                     },
                     {
                         label: "Password",
                         name: "password",
-                        type: "password",
+                        type: showPassword ? "text" : "password",
                         placeholder: "Enter your password",
                         value: "",
                         onChange: () => {},
+                        rightIcon: showPassword ? "🙈" : "👁",
+                        onRightIconClick: () => setShowPassword(!showPassword),
                     },
                 ]}
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "1rem",
-                    padding: "24px",
-                    backgroundColor: "white",
-                    border: "1px solid gray",
-                    borderRadius: "12px",
-                    margin: "0 auto",
-                }}
             >
                 <button
                     type="submit"
-                    style={{
-                        backgroundColor: "green",
-                        color: "white",
-                        padding: "8px 16px",
-                        borderRadius: "4px",
-                        cursor: "pointer",
-                    }}
+                    className="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-cyan-600 text-white rounded-lg font-semibold hover:opacity-90 transition-opacity"
                 >
-                    Submit
+                    Sign In
                 </button>
             </Form>
         </div>

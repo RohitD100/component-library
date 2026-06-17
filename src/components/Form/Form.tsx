@@ -1,4 +1,10 @@
-import { sizeWidths } from "./formStyle";
+import {
+    sizeWidths,
+    baseFormStyle,
+    baseLabelStyle,
+    baseInputStyle,
+    baseTitleStyle,
+} from "./formStyle";
 import type { FormProps } from "./type";
 
 const Form = ({
@@ -7,76 +13,69 @@ const Form = ({
     size = "md",
     inputProps,
     title,
+    className = "",
     style = {},
 }: FormProps) => {
     return (
         <form
             onSubmit={onSubmit}
-            style={{
-                width: sizeWidths[size],
-                ...style,
-            }}
+            className={`${sizeWidths[size]} ${baseFormStyle} ${className}`}
+            style={style}
         >
-            <h2
-                style={{
-                    fontSize: "20px",
-                    fontWeight: 700,
-                    color: "black",
-                    textAlign: "center",
-                    textDecoration: "underline",
-                }}
-            >
-                {title || "Form"}
-            </h2>
+            {title && <h2 className={baseTitleStyle}>{title}</h2>}
 
-            {inputProps?.map((inputProp) => (
-                <div
-                    key={inputProp.name}
-                    style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        gap: "0.5rem",
-                    }}
-                >
-                    <label
-                        htmlFor={inputProp.name}
-                        style={{
-                            fontWeight: 600,
-                            fontSize: "14px",
-                            color: "#374151",
-                            textAlign: "left",
-                        }}
-                    >
-                        {inputProp.label}
+            {inputProps?.map((field) => (
+                <div key={field.name} className="space-y-1">
+                    <label htmlFor={field.name} className={baseLabelStyle}>
+                        {field.label}
                     </label>
 
-                    <input
-                        id={inputProp.name}
-                        name={inputProp.name}
-                        type={inputProp.type}
-                        placeholder={inputProp.placeholder}
-                        value={inputProp.value}
-                        onChange={inputProp.onChange}
-                        style={{
-                            padding: "10px 12px",
-                            border: "1px solid #d1d5db",
-                            borderRadius: "8px",
-                            fontSize: "14px",
-                            outline: "none",
-                        }}
-                    />
+                    <div className="relative flex items-center">
+                        {field.leftIcon && (
+                            <span className="absolute left-3 text-gray-400 pointer-events-none">
+                                {field.leftIcon}
+                            </span>
+                        )}
+
+                        <input
+                            id={field.name}
+                            name={field.name}
+                            type={field.type ?? "text"}
+                            placeholder={field.placeholder}
+                            value={field.value}
+                            onChange={field.onChange}
+                            disabled={field.disabled}
+                            className={`
+                                ${baseInputStyle}
+                                ${field.leftIcon ? "pl-10" : ""}
+                                ${field.rightIcon ? "pr-10" : ""}
+                                ${field.error ? "border-red-500 focus:ring-red-500" : ""}
+                                ${field.className ?? ""}
+                            `}
+                        />
+
+                        {field.rightIcon && (
+                            <button
+                                type="button"
+                                onClick={field.onRightIconClick}
+                                className="absolute right-3 text-gray-400 hover:text-white transition-colors focus:outline-none"
+                            >
+                                {field.rightIcon}
+                            </button>
+                        )}
+                    </div>
+
+                    {field.error && (
+                        <p role="alert" className="text-sm text-red-400 mt-1">
+                            {field.error}
+                        </p>
+                    )}
                 </div>
             ))}
 
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "left",
-                    marginTop: "8px",
-                }}
-            >
-                {children}
-            </div>
+            {children && (
+                <div className="flex justify-start mt-2">{children}</div>
+            )}
         </form>
     );
 };
