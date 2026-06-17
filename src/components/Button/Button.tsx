@@ -1,44 +1,25 @@
-import { useState } from "react";
-import { sizeStyles, variantColors, baseButtonStyle } from "./butonStyling";
+import { baseButtonStyle, sizeStyles, variantStyles } from "./butonStyling";
 import type { ButtonProps } from "./types";
 
 const Button = ({
     size = "md",
     variant = "primary",
+    type = "button",
     content,
     onClick,
     disabled = false,
+    className = "",
     styles = {},
-}: ButtonProps) => {
-    const [isHovered, setIsHovered] = useState(false);
-    const [isFocused, setIsFocused] = useState(false);
-
-    const colors = variantColors[variant];
-
-    return (
-        <button
-            onClick={onClick}
-            disabled={disabled}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-            style={{
-                ...baseButtonStyle,
-                ...sizeStyles[size],
-                background: isHovered ? colors.hover : colors.background,
-                color: colors.text,
-                boxShadow: isFocused
-                    ? `0 0 0 3px ${colors.background}55`
-                    : "none",
-                opacity: disabled ? 0.6 : 1,
-                cursor: disabled ? "not-allowed" : "pointer",
-                ...styles,
-            }}
-        >
-            {content}
-        </button>
-    );
-};
+}: ButtonProps) => (
+    <button
+        type={type}
+        onClick={onClick}
+        disabled={disabled}
+        className={`${baseButtonStyle} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`}
+        style={styles}
+    >
+        {content}
+    </button>
+);
 
 export default Button;
