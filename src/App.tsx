@@ -1,21 +1,18 @@
-import Avatar from "./components/Avatar/Avatar";
+import { components } from "./componentsList";
+import "./index.css";
+import { styles } from "./styles";
 
 const App = () => {
     return (
-        <div className="flex flex-wrap gap-4 items-end justify-center mt-50">
-            <Avatar
-                src="https://i.pravatar.cc/150"
-                alt="User"
-                size="md"
-                status="online"
-                shape="circle"
-            />
+        <div style={{ padding: "20px" }}>
+            <h2>Component Library</h2>
 
-            <Avatar initials="AG" size="sm" shape="circle" status="busy" />
-            <Avatar initials="JD" size="md" shape="circle" status="offline"/>
-            
-
-            <Avatar size="md" shape="circle" />
+            {components.map((comp, index) => (
+                <div key={index} style={styles.componentsContainer}>
+                    <h4 style={{ marginBottom: "10px" }}>{comp.name}</h4>
+                    {comp.render()}
+                </div>
+            ))}
         </div>
     );
 };
