@@ -63,7 +63,6 @@ export const components = [
                     message="Here is some useful information."
                     dismissible
                 />
-                
             </div>
         ),
     },
@@ -78,21 +77,38 @@ export const components = [
                     status="online"
                     shape="circle"
                 />
-                <Avatar initials="AG" size="sm" shape="circle" status="busy" />
                 <Avatar
+                    src="https://i.pravatar.cc/151"
+                    initials="AG"
+                    size="sm"
+                    shape="circle"
+                    status="busy"
+                />
+                <Avatar
+                    src="https://i.pravatar.cc/152"
                     initials="JD"
                     size="md"
                     shape="circle"
                     status="offline"
                 />
-                <Avatar initials="AB" size="lg" shape="square" />
                 <Avatar
+                    src="https://i.pravatar.cc/153"
+                    initials="AB"
+                    size="lg"
+                    shape="square"
+                />
+                <Avatar
+                    src="https://i.pravatar.cc/154"
                     initials="XL"
                     size="xl"
                     shape="circle"
                     status="online"
                 />
-                <Avatar size="md" shape="circle" />
+                <Avatar
+                    src="https://i.pravatar.cc/155"
+                    size="md"
+                    shape="circle"
+                />
             </div>
         ),
     },
