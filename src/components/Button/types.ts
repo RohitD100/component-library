@@ -1,3 +1,5 @@
+import React from "react";
+
 export type ButtonProps = {
     size?: "sm" | "md" | "lg";
     variant?: "primary" | "secondary" | "danger";

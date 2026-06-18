@@ -4,6 +4,7 @@ import { LinearLoader } from "./components/LinearLoader/LinearLoader";
 import Input from "./components/Input/Input";
 import Alert from "./components/Alert/Alert";
 import Avatar from "./components/Avatar/Avatar";
+import ReferralBadge from "./components/ReferralBadge/ReferralBadge";
 
 export const components = [
     {
@@ -108,6 +109,27 @@ export const components = [
                     src="https://i.pravatar.cc/155"
                     size="md"
                     shape="circle"
+                />
+            </div>
+        ),
+    },
+    {
+        name: "Referral Badge",
+        render: () => (
+            <div className="flex flex-col gap-2">
+                <ReferralBadge variant="default" referralCode="john123" />
+                <ReferralBadge variant="active" referralCode="jane456" />
+                <ReferralBadge variant="reward" label="500 coins earned!" />
+                <ReferralBadge variant="expired" />
+                <ReferralBadge
+                    variant="default"
+                    referralCode="aditya"
+                    size="sm"
+                />
+                <ReferralBadge
+                    variant="active"
+                    referralCode="aditya"
+                    size="lg"
                 />
             </div>
         ),
