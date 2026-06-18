@@ -63,16 +63,7 @@ export const components = [
                     message="Here is some useful information."
                     dismissible
                 />
-                <Alert
-                    variant="yaracirclesuccess"
-                    message="Payment successful!"
-                    dismissible
-                />
-                <Alert
-                    variant="yaracirclefail"
-                    message="Failed to load game types"
-                    dismissible
-                />
+                
             </div>
         ),
     },
