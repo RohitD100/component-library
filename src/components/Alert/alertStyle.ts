@@ -36,7 +36,7 @@ export const baseAlertStyle =
     "flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200";
 
 export const dismissButtonStyle =
-    "flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 rounded";
+    "flex-shrink-0 text-gray-400 hover:text-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-300 rounded cursor-pointer";
 
 export const iconWrapperStyle =
     "flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold flex-shrink-0";

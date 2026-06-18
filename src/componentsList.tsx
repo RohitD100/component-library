@@ -3,6 +3,7 @@ import { CircularLoader } from "./components/CircularLoader/CircularLoader";
 import { LinearLoader } from "./components/LinearLoader/LinearLoader";
 import Input from "./components/Input/Input";
 import Alert from "./components/Alert/Alert";
+import Avatar from "./components/Avatar/Avatar";
 
 export const components = [
     {
@@ -61,6 +62,52 @@ export const components = [
                     variant="info"
                     message="Here is some useful information."
                     dismissible
+                />
+            </div>
+        ),
+    },
+    {
+        name: "Avatar",
+        render: () => (
+            <div className="flex flex-wrap gap-4 items-end">
+                <Avatar
+                    src="https://i.pravatar.cc/150"
+                    alt="User"
+                    size="md"
+                    status="online"
+                    shape="circle"
+                />
+                <Avatar
+                    src="https://i.pravatar.cc/151"
+                    initials="AG"
+                    size="sm"
+                    shape="circle"
+                    status="busy"
+                />
+                <Avatar
+                    src="https://i.pravatar.cc/152"
+                    initials="JD"
+                    size="md"
+                    shape="circle"
+                    status="offline"
+                />
+                <Avatar
+                    src="https://i.pravatar.cc/153"
+                    initials="AB"
+                    size="lg"
+                    shape="square"
+                />
+                <Avatar
+                    src="https://i.pravatar.cc/154"
+                    initials="XL"
+                    size="xl"
+                    shape="circle"
+                    status="online"
+                />
+                <Avatar
+                    src="https://i.pravatar.cc/155"
+                    size="md"
+                    shape="circle"
                 />
             </div>
         ),
