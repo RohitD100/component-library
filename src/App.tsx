@@ -1,29 +1,18 @@
-import Alert from "./components/Alert/Alert";
+import { components } from "./componentsList";
+import "./index.css";
+import { styles } from "./styles";
 
 const App = () => {
     return (
-        <div>
-            <Alert
-                variant="success"
-                message="Operation completed successfully!"
-                dismissible
-                onDismiss={() => console.log("alert closed")}
-            />
-            <Alert
-                variant="error"
-                message="Something went wrong."
-                dismissible
-            />
-            <Alert
-                variant="warning"
-                message="Please review your input."
-                dismissible
-            />
-            <Alert
-                variant="info"
-                message="Here is some useful information."
-                dismissible
-            />
+        <div style={{ padding: "20px" }}>
+            <h2>Component Library</h2>
+
+            {components.map((comp, index) => (
+                <div key={index} style={styles.componentsContainer}>
+                    <h4 style={{ marginBottom: "10px" }}>{comp.name}</h4>
+                    {comp.render()}
+                </div>
+            ))}
         </div>
     );
 };
