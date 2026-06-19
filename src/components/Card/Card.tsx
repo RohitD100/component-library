@@ -3,13 +3,15 @@ import {
     badgeStyle,
     badgeVariants,
     baseCardStyle,
+    cardVariants,
     contentStyle,
-    descriptionStyle,
+    descriptionVariants,
     footerStyle,
+    footerVariants,
     imageStyle,
-    secondaryButtonStyle,
+    secondaryButtonVariants,
     sizeStyles,
-    titleStyle,
+    titleVariants,
 } from "./cardStyle";
 import type { CardProps } from "./type";
 
@@ -19,6 +21,7 @@ const Card = ({
     imageUrl,
     badge,
     badgeVariant = "default",
+    variant = "dark",
     size = "md",
     actionLabel,
     onAction,
@@ -30,13 +33,15 @@ const Card = ({
 }: CardProps) => {
     return (
         <div
-            className={`${baseCardStyle} ${sizeStyles[size]} ${className}`}
+            className={`${baseCardStyle} ${cardVariants[variant]} ${sizeStyles[size]} ${className}`}
             style={style}
         >
+            {/* Image */}
             {imageUrl && (
                 <img src={imageUrl} alt={title} className={imageStyle} />
             )}
 
+            {/* Content */}
             <div className={contentStyle}>
                 {badge && (
                     <span
@@ -45,13 +50,13 @@ const Card = ({
                         {badge}
                     </span>
                 )}
-
-                <h3 className={titleStyle}>{title}</h3>
-                <p className={descriptionStyle}>{description}</p>
+                <h3 className={titleVariants[variant]}>{title}</h3>
+                <p className={descriptionVariants[variant]}>{description}</p>
             </div>
 
+            {/* Footer */}
             {(actionLabel || secondaryLabel || footer) && (
-                <div className={footerStyle}>
+                <div className={`${footerStyle} ${footerVariants[variant]}`}>
                     {footer ? (
                         footer
                     ) : (
@@ -59,7 +64,7 @@ const Card = ({
                             {secondaryLabel && (
                                 <button
                                     onClick={onSecondary}
-                                    className={secondaryButtonStyle}
+                                    className={secondaryButtonVariants[variant]}
                                 >
                                     {secondaryLabel}
                                 </button>

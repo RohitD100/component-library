@@ -1,6 +1,7 @@
 import React from "react";
 
 export type BadgeVariant = "default" | "success" | "warning" | "danger";
+export type CardVariant = "dark" | "light";
 
 export type CardProps = {
     title: string;
@@ -8,6 +9,7 @@ export type CardProps = {
     imageUrl?: string;
     badge?: string;
     badgeVariant?: BadgeVariant;
+    variant?: CardVariant;
     size?: "sm" | "md" | "lg";
     actionLabel?: string;
     onAction?: () => void;
