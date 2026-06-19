@@ -36,12 +36,10 @@ const Card = ({
             className={`${baseCardStyle} ${cardVariants[variant]} ${sizeStyles[size]} ${className}`}
             style={style}
         >
-            {/* Image */}
             {imageUrl && (
                 <img src={imageUrl} alt={title} className={imageStyle} />
             )}
 
-            {/* Content */}
             <div className={contentStyle}>
                 {badge && (
                     <span
@@ -54,7 +52,6 @@ const Card = ({
                 <p className={descriptionVariants[variant]}>{description}</p>
             </div>
 
-            {/* Footer */}
             {(actionLabel || secondaryLabel || footer) && (
                 <div className={`${footerStyle} ${footerVariants[variant]}`}>
                     {footer ? (

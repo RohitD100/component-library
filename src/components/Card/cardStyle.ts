@@ -5,7 +5,7 @@ export const sizeStyles = {
 } as const;
 
 export const cardVariants = {
-    dark: "bg-gray-800 border border-gray-700 text-white",
+    dark: "bg-gray-800 border hover:shadow-xl transition text-white",
     light: "bg-white border border-gray-200 text-gray-900",
 } as const;
 
@@ -39,7 +39,7 @@ export const badgeVariants = {
 export const footerStyle = "px-5 pb-5 flex items-center justify-between gap-3";
 
 export const footerVariants = {
-    dark: "border-t border-gray-700 mt-2",
+    dark: "border-gray-700 mt-2",
     light: "border-t border-gray-100 mt-2",
 } as const;
 
