@@ -1,20 +1,20 @@
-import Sidebar from './components/Sidebar/Sidebar'
+import { components } from "./componentsList";
+import "./index.css";
+import { styles } from "./styles";
 
 const App = () => {
-  return (
-      <div className="h-64 flex">
-          <Sidebar
-              logo="MyApp"
-              activeHref="/dashboard"
-              items={[
-                  { label: "Dashboard", href: "/dashboard", badge: "3" },
-                  { label: "Users", href: "/users" },
-                  { label: "Settings", href: "/settings" },
-                  { label: "Analytics", href: "/analytics" },
-              ]}
-          />
-      </div>
-  );
-}
+    return (
+        <div style={{ padding: "20px" }}>
+            <h2>Component Library</h2>
 
-export default App
+            {components.map((comp, index) => (
+                <div key={index} style={styles.componentsContainer}>
+                    <h4 style={{ marginBottom: "10px" }}>{comp.name}</h4>
+                    {comp.render()}
+                </div>
+            ))}
+        </div>
+    );
+};
+
+export default App;
