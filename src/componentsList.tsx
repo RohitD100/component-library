@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "./components/Button/Button";
 import { CircularLoader } from "./components/CircularLoader/CircularLoader";
 import { LinearLoader } from "./components/LinearLoader/LinearLoader";
@@ -7,6 +8,15 @@ import Avatar from "./components/Avatar/Avatar";
 import ReferralBadge from "./components/ReferralBadge/ReferralBadge";
 import Card from "./components/Card/Card";
 import HelpPopup from "./components/HelpPopup/HelpPopup";
+import ComboBox from "./components/ComboBox/ComboBox";
+
+const frameworkOptions = [
+    { label: "React", value: "react" },
+    { label: "Vue", value: "vue" },
+    { label: "Svelte", value: "svelte" },
+    { label: "Angular", value: "angular" },
+    { label: "SolidJS", value: "solidjs" },
+];
 
 export const components = [
     {
@@ -167,7 +177,7 @@ export const components = [
         ),
     },
     {
-        name: "Help popup",
+        name: "Help Popup",
         render: () => (
             <div className="flex flex-wrap gap-4">
                 <div className="flex items-center gap-2 text-sm text-gray-700">
@@ -180,7 +190,6 @@ export const components = [
                         triggerType="click"
                     />
                 </div>
-
                 <div className="flex items-center gap-2 text-sm text-gray-700">
                     Info (hover)
                     <HelpPopup
@@ -191,7 +200,6 @@ export const components = [
                         triggerType="hover"
                     />
                 </div>
-
                 <div className="flex items-center gap-2 text-sm text-gray-700">
                     Warning
                     <HelpPopup
@@ -204,5 +212,21 @@ export const components = [
                 </div>
             </div>
         ),
+    },
+    {
+        name: "ComboBox",
+        render: () => {
+            const [selected, setSelected] = useState<string | undefined>(
+                undefined,
+            );
+            return (
+                <ComboBox
+                    options={frameworkOptions}
+                    value={selected}
+                    onChange={setSelected}
+                    placeholder="Select a framework..."
+                />
+            );
+        },
     },
 ];
