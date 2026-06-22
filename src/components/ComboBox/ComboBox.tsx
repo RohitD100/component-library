@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import {
     triggerStyle,
     dropdownStyle,
-    searchInputStyle,
+    triggerSearchInputStyle,
     optionStyle,
     optionActiveStyle,
     placeholderStyle,
@@ -23,6 +23,7 @@ const ComboBox = ({
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState("");
     const containerRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const selected = options.find((o) => o.value === value);
 
@@ -47,6 +48,15 @@ const ComboBox = ({
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    // Focus the inline input when dropdown opens
+    useEffect(() => {
+        if (open) {
+            inputRef.current?.focus();
+        } else {
+            setQuery("");
+        }
+    }, [open]);
+
     function handleSelect(val: string) {
         onChange?.(val);
         setOpen(false);
@@ -60,6 +70,10 @@ const ComboBox = ({
         }
     }
 
+    function handleTriggerClick() {
+        if (!disabled) setOpen((prev) => !prev);
+    }
+
     return (
         <div
             ref={containerRef}
@@ -67,18 +81,30 @@ const ComboBox = ({
             style={styles}
             onKeyDown={handleKeyDown}
         >
-            <button
-                type="button"
+            {/* Trigger — now contains inline search input when open */}
+            <div
                 role="combobox"
                 aria-expanded={open}
                 aria-haspopup="listbox"
-                disabled={disabled}
-                onClick={() => setOpen((prev) => !prev)}
-                className={triggerStyle}
+                onClick={handleTriggerClick}
+                className={`${triggerStyle} ${disabled ? "opacity-60 cursor-not-allowed" : ""}`}
             >
-                <span className={!selected ? placeholderStyle : ""}>
-                    {selected ? selected.label : placeholder}
-                </span>
+                {open ? (
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                        onClick={(e) => e.stopPropagation()}
+                        placeholder={selected ? selected.label : placeholder}
+                        className={triggerSearchInputStyle}
+                    />
+                ) : (
+                    <span className={!selected ? placeholderStyle : ""}>
+                        {selected ? selected.label : placeholder}
+                    </span>
+                )}
+
                 <svg
                     className={`${chevronStyle} ${open ? chevronOpenStyle : ""}`}
                     xmlns="http://www.w3.org/2000/svg"
@@ -91,55 +117,43 @@ const ComboBox = ({
                 >
                     <path d="M6 9l6 6 6-6" />
                 </svg>
-            </button>
+            </div>
 
+            {/* Dropdown — options only, no separate search bar */}
             {open && (
-                <div role="listbox" className={dropdownStyle}>
-                    <div className="p-2 border-b border-gray-100">
-                        <input
-                            autoFocus
-                            type="text"
-                            value={query}
-                            onChange={(e) => setQuery(e.target.value)}
-                            placeholder="Search..."
-                            className={searchInputStyle}
-                        />
-                    </div>
-
-                    <ul className="max-h-48 overflow-y-auto p-1">
-                        {filtered.length === 0 ? (
-                            <li className="px-3 py-2 text-sm text-gray-400">
-                                No results found.
+                <ul role="listbox" className={dropdownStyle}>
+                    {filtered.length === 0 ? (
+                        <li className="px-3 py-2 text-sm text-gray-400">
+                            No results found.
+                        </li>
+                    ) : (
+                        filtered.map((option) => (
+                            <li
+                                key={option.value}
+                                role="option"
+                                aria-selected={option.value === value}
+                                onClick={() => handleSelect(option.value)}
+                                className={`${optionStyle} ${option.value === value ? optionActiveStyle : ""}`}
+                            >
+                                <span>{option.label}</span>
+                                {option.value === value && (
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth={2.5}
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        className="h-4 w-4 shrink-0"
+                                    >
+                                        <path d="M20 6L9 17l-5-5" />
+                                    </svg>
+                                )}
                             </li>
-                        ) : (
-                            filtered.map((option) => (
-                                <li
-                                    key={option.value}
-                                    role="option"
-                                    aria-selected={option.value === value}
-                                    onClick={() => handleSelect(option.value)}
-                                    className={`${optionStyle} ${option.value === value ? optionActiveStyle : ""}`}
-                                >
-                                    <span>{option.label}</span>
-                                    {option.value === value && (
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            strokeWidth={2.5}
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            className="h-4 w-4 shrink-0"
-                                        >
-                                            <path d="M20 6L9 17l-5-5" />
-                                        </svg>
-                                    )}
-                                </li>
-                            ))
-                        )}
-                    </ul>
-                </div>
+                        ))
+                    )}
+                </ul>
             )}
         </div>
     );

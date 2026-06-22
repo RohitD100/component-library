@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "./components/Button/Button";
 import { CircularLoader } from "./components/CircularLoader/CircularLoader";
 import { LinearLoader } from "./components/LinearLoader/LinearLoader";
@@ -6,7 +7,15 @@ import Alert from "./components/Alert/Alert";
 import Avatar from "./components/Avatar/Avatar";
 import ReferralBadge from "./components/ReferralBadge/ReferralBadge";
 import Card from "./components/Card/Card";
-import ComboBoxDemo from "./components/ComboBox/ComboBoxDemo";
+import ComboBox from "./components/ComboBox/ComboBox";
+
+const frameworkOptions = [
+    { label: "React", value: "react" },
+    { label: "Vue", value: "vue" },
+    { label: "Svelte", value: "svelte" },
+    { label: "Angular", value: "angular" },
+    { label: "SolidJS", value: "solidjs" },
+];
 
 export const components = [
     {
@@ -168,6 +177,18 @@ export const components = [
     },
     {
         name: "ComboBox",
-        render: () => <ComboBoxDemo />,
+        render: () => {
+            const [selected, setSelected] = useState<string | undefined>(
+                undefined,
+            );
+            return (
+                <ComboBox
+                    options={frameworkOptions}
+                    value={selected}
+                    onChange={setSelected}
+                    placeholder="Select a framework..."
+                />
+            );
+        },
     },
 ];
