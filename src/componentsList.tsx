@@ -6,6 +6,7 @@ import Alert from "./components/Alert/Alert";
 import Avatar from "./components/Avatar/Avatar";
 import ReferralBadge from "./components/ReferralBadge/ReferralBadge";
 import Card from "./components/Card/Card";
+import ComboBoxDemo from "./components/ComboBox/ComboBoxDemo";
 
 export const components = [
     {
@@ -164,5 +165,9 @@ export const components = [
                 />
             </div>
         ),
+    },
+    {
+        name: "ComboBox",
+        render: () => <ComboBoxDemo />,
     },
 ];
