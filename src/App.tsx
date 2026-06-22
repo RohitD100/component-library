@@ -1,4 +1,5 @@
 import { components } from "./componentsList";
+// @ts-ignore: allow CSS side-effect import without module declarations
 import "./index.css";
 import { styles } from "./styles";
 
