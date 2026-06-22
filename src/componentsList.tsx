@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "./components/Button/Button";
 import { CircularLoader } from "./components/CircularLoader/CircularLoader";
 import { LinearLoader } from "./components/LinearLoader/LinearLoader";
@@ -7,6 +8,16 @@ import Avatar from "./components/Avatar/Avatar";
 import ReferralBadge from "./components/ReferralBadge/ReferralBadge";
 import Card from "./components/Card/Card";
 import InfoItem from "./components/InfoItem/InfoItem";
+import HelpPopup from "./components/HelpPopup/HelpPopup";
+import ComboBox from "./components/ComboBox/ComboBox";
+
+const frameworkOptions = [
+    { label: "React", value: "react" },
+    { label: "Vue", value: "vue" },
+    { label: "Svelte", value: "svelte" },
+    { label: "Angular", value: "angular" },
+    { label: "SolidJS", value: "solidjs" },
+];
 
 export const components = [
     {
@@ -197,5 +208,58 @@ export const components = [
                 />
             </div>
         ),
+    },
+    {
+        name: "Help Popup",
+        render: () => (
+            <div className="flex flex-wrap gap-4">
+                <div className="flex items-center gap-2 text-sm text-gray-700">
+                    Default (click)
+                    <HelpPopup
+                        title="What is this?"
+                        content="This is a default help popup. Click the ? to open or close it."
+                        variant="default"
+                        placement="bottom"
+                        triggerType="click"
+                    />
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-700">
+                    Info (hover)
+                    <HelpPopup
+                        title="Did you know?"
+                        content="Hover triggers close automatically when you move away."
+                        variant="info"
+                        placement="top"
+                        triggerType="hover"
+                    />
+                </div>
+                <div className="flex items-center gap-2 text-sm text-gray-700">
+                    Warning
+                    <HelpPopup
+                        title="Caution"
+                        content="This action cannot be undone. Please review before proceeding."
+                        variant="warning"
+                        placement="right"
+                        triggerType="click"
+                    />
+                </div>
+            </div>
+        ),
+    },
+    {
+        name: "ComboBox",
+        render: () => {
+            const [selected, setSelected] = useState<string | undefined>(
+                undefined,
+            );
+            return (
+                <ComboBox
+                    options={frameworkOptions}
+                    value={selected}
+                    onChange={setSelected}
+                    placeholder="Select a framework..."
+                />
+            );
+        },
     },
 ];
