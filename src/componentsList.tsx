@@ -6,6 +6,7 @@ import Alert from "./components/Alert/Alert";
 import Avatar from "./components/Avatar/Avatar";
 import ReferralBadge from "./components/ReferralBadge/ReferralBadge";
 import Card from "./components/Card/Card";
+import HelpPopup from "./components/HelpPopup/HelpPopup";
 
 export const components = [
     {
@@ -162,6 +163,45 @@ export const components = [
                     size="md"
                     variant="light"
                 />
+            </div>
+        ),
+    },
+    {
+        name: "Help popup",
+        render: () => (
+            <div className="flex flex-wrap gap-4">
+                <div className="flex items-center gap-2 text-sm text-gray-700">
+                    Default (click)
+                    <HelpPopup
+                        title="What is this?"
+                        content="This is a default help popup. Click the ? to open or close it."
+                        variant="default"
+                        placement="bottom"
+                        triggerType="click"
+                    />
+                </div>
+
+                <div className="flex items-center gap-2 text-sm text-gray-700">
+                    Info (hover)
+                    <HelpPopup
+                        title="Did you know?"
+                        content="Hover triggers close automatically when you move away."
+                        variant="info"
+                        placement="top"
+                        triggerType="hover"
+                    />
+                </div>
+
+                <div className="flex items-center gap-2 text-sm text-gray-700">
+                    Warning
+                    <HelpPopup
+                        title="Caution"
+                        content="This action cannot be undone. Please review before proceeding."
+                        variant="warning"
+                        placement="right"
+                        triggerType="click"
+                    />
+                </div>
             </div>
         ),
     },
