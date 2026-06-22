@@ -9,6 +9,11 @@ export const containerOrientation: Record<InfoItemOrientation, string> = {
     vertical: "flex flex-col gap-1",
 };
 
+export const wrapperOrientation: Record<InfoItemOrientation, string> = {
+    vertical: "flex flex-col gap-0.5 min-w-0 flex-1",
+    horizontal: "flex flex-col gap-0.5 min-w-0 flex-1",
+};
+
 export const containerVariant: Record<InfoItemVariant, string> = {
     default: "bg-white border border-gray-200 rounded-xl px-4 py-3",
     subtle: "bg-gray-50 rounded-xl px-4 py-3",
@@ -40,5 +45,5 @@ export const valueVariant: Record<InfoItemVariant, string> = {
 };
 
 export const labelBase = "font-medium tracking-wide uppercase";
-export const valueBase = "font-semibold";
+export const valueBase = "font-semibold break-words";
 export const iconBase = "shrink-0 text-gray-400";

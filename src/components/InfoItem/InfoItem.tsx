@@ -2,6 +2,7 @@ import React from "react";
 import {
     containerOrientation,
     containerVariant,
+    wrapperOrientation,
     labelBase,
     labelSize,
     labelVariant,
@@ -28,18 +29,14 @@ const InfoItem = ({
             style={styles}
         >
             {icon && <span className={iconBase}>{icon}</span>}
-            <div
-                className={
-                    orientation === "vertical"
-                        ? "flex flex-col gap-0.5"
-                        : "flex flex-col gap-0.5"
-                }
-            >
-                <span
-                    className={`${labelBase} ${labelSize[size]} ${labelVariant[variant]}`}
-                >
-                    {label}
-                </span>
+            <div className={wrapperOrientation[orientation]}>
+                {label && (
+                    <span
+                        className={`${labelBase} ${labelSize[size]} ${labelVariant[variant]}`}
+                    >
+                        {label}
+                    </span>
+                )}
                 <span
                     className={`${valueBase} ${valueSize[size]} ${valueVariant[variant]}`}
                 >

@@ -5,7 +5,7 @@ export type InfoItemSize = "sm" | "md" | "lg";
 export type InfoItemOrientation = "horizontal" | "vertical";
 
 export type InfoItemProps = {
-    label: string;
+    label?: string;
     value: React.ReactNode;
     variant?: InfoItemVariant;
     size?: InfoItemSize;
