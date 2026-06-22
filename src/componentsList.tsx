@@ -6,6 +6,7 @@ import Alert from "./components/Alert/Alert";
 import Avatar from "./components/Avatar/Avatar";
 import ReferralBadge from "./components/ReferralBadge/ReferralBadge";
 import Card from "./components/Card/Card";
+import InfoItem from "./components/InfoItem/InfoItem";
 
 export const components = [
     {
@@ -161,6 +162,38 @@ export const components = [
                     actionLabel="Explore"
                     size="md"
                     variant="light"
+                />
+            </div>
+        ),
+    },
+    {
+        name: "InfoItem",
+        render: () => (
+            <div className="flex flex-wrap gap-4">
+                <InfoItem
+                    label="Full Name"
+                    value="Aditya Sharma"
+                    variant="default"
+                    size="md"
+                />
+                <InfoItem
+                    label="Email"
+                    value="aditya@example.com"
+                    variant="subtle"
+                    size="md"
+                />
+                <InfoItem
+                    label="Password"
+                    value="Aditya@123"
+                    variant="highlight"
+                    size="lg"
+                />
+                <InfoItem
+                    label="Total Referrals"
+                    value="42"
+                    variant="highlight"
+                    size="lg"
+                    orientation="horizontal"
                 />
             </div>
         ),
