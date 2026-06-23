@@ -4,7 +4,9 @@ import {
     baseSidebarStyle,
     collapseButtonVariants,
     collapsedNavItem,
+    collapseIconStyle,
     iconStyle,
+    iconStyle2,
     logoVariants,
     navItemActive,
     navItemBase,
@@ -12,6 +14,7 @@ import {
     navStyle,
     sidebarVariants,
     tooltipStyle,
+    tooltipStyle2,
 } from "./sidebarStyle";
 import type { SidebarProps } from "./type";
 
@@ -38,7 +41,7 @@ export default function Sidebar({
                 {logoIcon ? (
                     <span className={iconStyle}>{logoIcon}</span>
                 ) : collapsed ? (
-                    <span className="flex items-center justify-center w-full font-bold text-base">
+                    <span className={collapseIconStyle}>
                         {logo.charAt(0)}
                     </span>
                 ) : (
@@ -67,7 +70,7 @@ export default function Sidebar({
                                         {item.icon}
                                     </span>
                                 ) : (
-                                    <span className="w-5 h-5 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                    <span className={iconStyle2}>
                                         {item.label.charAt(0)}
                                     </span>
                                 )}
@@ -75,7 +78,7 @@ export default function Sidebar({
                                 <span className={tooltipStyle}>
                                     {item.label}
                                     {item.badge && (
-                                        <span className="ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] bg-purple-500/30 text-purple-200">
+                                        <span className={tooltipStyle2}>
                                             {item.badge}
                                         </span>
                                     )}

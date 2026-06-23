@@ -181,7 +181,7 @@ export const components = [
     {
         name: "Sidebar",
         render: () => (
-            <div className="flex gap-6 h-64">
+            <div className="flex gap-6 h-150">
                 <Sidebar
                     logo="MyApp"
                     variant="dark"
@@ -210,7 +210,7 @@ export const components = [
     {
         name: "InfoItem",
         render: () => (
-            <div className="flex flex-wrap gap-4 mt-50">
+            <div className="flex flex-wrap gap-4 ">
                 <InfoItem
                     label="Full Name"
                     value="Aditya Sharma"

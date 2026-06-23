@@ -41,3 +41,15 @@ export const badgeVariants = {
 
 export const tooltipStyle =
     "absolute left-full ml-2 px-2 py-1 rounded-md text-xs font-medium bg-gray-800 text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-50";
+
+
+export const collapseIconStyle =
+    "flex items-center justify-center w-full font-bold text-base";
+
+
+    export const iconStyle2 =
+        "flex items-center justify-center w-full font-bold text-base";
+
+
+        export const tooltipStyle2 =
+            "ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] bg-purple-500/30 text-purple-200";
