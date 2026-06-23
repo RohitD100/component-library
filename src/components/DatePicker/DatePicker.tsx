@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import type { DatePickerProps, DateFormat } from "./type";
+import type { DatePickerProps } from "./type";
 import {
     wrapperStyle,
     triggerStyle,
     placeholderStyle,
     calendarWrapperStyle,
     calendarHeaderStyle,
-    calendarTitleStyle,
     navButtonStyle,
+    quickNavSelectStyle,
     weekGridStyle,
     weekLabelStyle,
     daysGridStyle,
@@ -17,70 +17,28 @@ import {
     dayDisabled,
     dayOtherMonth,
     dayHover,
+    dayHighlight,
     footerStyle,
     todayButtonStyle,
+    clearButtonStyle,
 } from "./datePickerStyle";
-
-const WEEK_DAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
-const MONTHS = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-];
-
-function formatDate(date: Date, format: DateFormat): string {
-    const dd = String(date.getDate()).padStart(2, "0");
-    const mm = String(date.getMonth() + 1).padStart(2, "0");
-    const yyyy = String(date.getFullYear());
-
-    switch (format) {
-        case "DD/MM/YYYY":
-            return `${dd}/${mm}/${yyyy}`;
-        case "MM/DD/YYYY":
-            return `${mm}/${dd}/${yyyy}`;
-        case "YYYY-MM-DD":
-            return `${yyyy}-${mm}-${dd}`;
-        default:
-            return `${dd}/${mm}/${yyyy}`;
-    }
-}
-
-function isSameDay(a: Date, b: Date): boolean {
-    return (
-        a.getDate() === b.getDate() &&
-        a.getMonth() === b.getMonth() &&
-        a.getFullYear() === b.getFullYear()
-    );
-}
-
-function isBeforeDay(a: Date, b: Date): boolean {
-    const normalize = (d: Date) =>
-        new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    return normalize(a) < normalize(b);
-}
-
-function isAfterDay(a: Date, b: Date): boolean {
-    const normalize = (d: Date) =>
-        new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    return normalize(a) > normalize(b);
-}
-
-function getDaysInMonth(year: number, month: number): number {
-    return new Date(year, month + 1, 0).getDate();
-}
-
-function getFirstDayOfMonth(year: number, month: number): number {
-    return new Date(year, month, 1).getDay();
-}
+import {
+    WEEK_DAYS,
+    MONTHS,
+    formatDate,
+    isSameDay,
+    buildCalendarCells,
+    generateYearRange,
+    handleKeyDown,
+    prevMonth,
+    nextMonth,
+    handleSelectDay,
+    handleToday,
+    handleClear,
+    isDayDisabled,
+    isDayHighlighted,
+    getDayLabel,
+} from "./datePickerUtils";
 
 const DatePicker = ({
     value,
@@ -90,6 +48,8 @@ const DatePicker = ({
     disabled = false,
     minDate,
     maxDate,
+    customDates = [],
+    yearRange = 10,
     className = "",
     style = {},
 }: DatePickerProps) => {
@@ -102,6 +62,9 @@ const DatePicker = ({
         value ? value.getMonth() : today.getMonth(),
     );
     const containerRef = useRef<HTMLDivElement>(null);
+
+    const years = generateYearRange(today.getFullYear(), yearRange);
+    const cells = buildCalendarCells(viewYear, viewMonth);
 
     useEffect(() => {
         function handleClickOutside(e: MouseEvent) {
@@ -117,74 +80,12 @@ const DatePicker = ({
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    function handleKeyDown(e: React.KeyboardEvent) {
-        if (e.key === "Escape") setOpen(false);
-    }
-
-    function prevMonth() {
-        if (viewMonth === 0) {
-            setViewMonth(11);
-            setViewYear((y) => y - 1);
-        } else {
-            setViewMonth((m) => m - 1);
-        }
-    }
-
-    function nextMonth() {
-        if (viewMonth === 11) {
-            setViewMonth(0);
-            setViewYear((y) => y + 1);
-        } else {
-            setViewMonth((m) => m + 1);
-        }
-    }
-
-    function handleSelectDay(day: number) {
-        const selected = new Date(viewYear, viewMonth, day);
-        onChange?.(selected);
-        setOpen(false);
-    }
-
-    function handleToday() {
-        setViewYear(today.getFullYear());
-        setViewMonth(today.getMonth());
-        onChange?.(today);
-        setOpen(false);
-    }
-
-    function isDayDisabled(day: number): boolean {
-        const date = new Date(viewYear, viewMonth, day);
-        if (minDate && isBeforeDay(date, minDate)) return true;
-        if (maxDate && isAfterDay(date, maxDate)) return true;
-        return false;
-    }
-
-    const daysInMonth = getDaysInMonth(viewYear, viewMonth);
-    const firstDay = getFirstDayOfMonth(viewYear, viewMonth);
-    const daysInPrevMonth = getDaysInMonth(
-        viewMonth === 0 ? viewYear - 1 : viewYear,
-        viewMonth === 0 ? 11 : viewMonth - 1,
-    );
-
-    const cells: { day: number; type: "prev" | "current" | "next" }[] = [];
-
-    for (let i = firstDay - 1; i >= 0; i--) {
-        cells.push({ day: daysInPrevMonth - i, type: "prev" });
-    }
-    for (let d = 1; d <= daysInMonth; d++) {
-        cells.push({ day: d, type: "current" });
-    }
-    let next = 1;
-    while (cells.length % 7 !== 0) {
-        cells.push({ day: next++, type: "next" });
-    }
-
     return (
         <div
             ref={containerRef}
             className={`${wrapperStyle} ${className}`}
             style={style}
-            onKeyDown={handleKeyDown}
+            onKeyDown={(e) => handleKeyDown(e, setOpen)}
         >
             <button
                 type="button"
@@ -223,20 +124,52 @@ const DatePicker = ({
                     <div className={calendarHeaderStyle}>
                         <button
                             type="button"
-                            onClick={prevMonth}
+                            onClick={() =>
+                                prevMonth(viewMonth, setViewMonth, setViewYear)
+                            }
                             className={navButtonStyle}
                             aria-label="Previous month"
                         >
                             ‹
                         </button>
 
-                        <span className={calendarTitleStyle}>
-                            {MONTHS[viewMonth]} {viewYear}
-                        </span>
+                        <div className="flex items-center gap-1">
+                            <select
+                                value={viewMonth}
+                                onChange={(e) =>
+                                    setViewMonth(Number(e.target.value))
+                                }
+                                className={quickNavSelectStyle}
+                                aria-label="Select month"
+                            >
+                                {MONTHS.map((m, i) => (
+                                    <option key={m} value={i}>
+                                        {m}
+                                    </option>
+                                ))}
+                            </select>
+
+                            <select
+                                value={viewYear}
+                                onChange={(e) =>
+                                    setViewYear(Number(e.target.value))
+                                }
+                                className={quickNavSelectStyle}
+                                aria-label="Select year"
+                            >
+                                {years.map((y) => (
+                                    <option key={y} value={y}>
+                                        {y}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
                         <button
                             type="button"
-                            onClick={nextMonth}
+                            onClick={() =>
+                                nextMonth(viewMonth, setViewMonth, setViewYear)
+                            }
                             className={navButtonStyle}
                             aria-label="Next month"
                         >
@@ -274,7 +207,26 @@ const DatePicker = ({
                                 ? isSameDay(cellDate, value)
                                 : false;
                             const isTodayCell = isSameDay(cellDate, today);
-                            const isDisabled = isDayDisabled(cell.day);
+                            const isDisabled = isDayDisabled(
+                                cell.day,
+                                viewYear,
+                                viewMonth,
+                                minDate,
+                                maxDate,
+                                customDates,
+                            );
+                            const isHighlighted = isDayHighlighted(
+                                cell.day,
+                                viewYear,
+                                viewMonth,
+                                customDates,
+                            );
+                            const dayLabel = getDayLabel(
+                                cell.day,
+                                viewYear,
+                                viewMonth,
+                                customDates,
+                            );
 
                             return (
                                 <button
@@ -282,18 +234,27 @@ const DatePicker = ({
                                     type="button"
                                     disabled={isDisabled}
                                     onClick={() =>
-                                        !isDisabled && handleSelectDay(cell.day)
+                                        handleSelectDay(
+                                            cell.day,
+                                            viewYear,
+                                            viewMonth,
+                                            onChange,
+                                            setOpen,
+                                        )
                                     }
+                                    title={dayLabel}
                                     className={`${dayButtonBase} ${
                                         isSelected
                                             ? dayActive
                                             : isDisabled
                                               ? dayDisabled
-                                              : isTodayCell
-                                                ? dayToday
-                                                : dayHover
+                                              : isHighlighted
+                                                ? dayHighlight
+                                                : isTodayCell
+                                                  ? dayToday
+                                                  : dayHover
                                     }`}
-                                    aria-label={`${cell.day} ${MONTHS[viewMonth]} ${viewYear}`}
+                                    aria-label={`${cell.day} ${MONTHS[viewMonth]} ${viewYear}${dayLabel ? ` — ${dayLabel}` : ""}`}
                                     aria-pressed={isSelected}
                                 >
                                     {cell.day}
@@ -305,7 +266,22 @@ const DatePicker = ({
                     <div className={footerStyle}>
                         <button
                             type="button"
-                            onClick={handleToday}
+                            onClick={() => handleClear(onChange, setOpen)}
+                            className={clearButtonStyle}
+                        >
+                            Clear
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() =>
+                                handleToday(
+                                    today,
+                                    onChange,
+                                    setViewYear,
+                                    setViewMonth,
+                                    setOpen,
+                                )
+                            }
                             className={todayButtonStyle}
                         >
                             Today
