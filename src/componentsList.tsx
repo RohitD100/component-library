@@ -10,6 +10,7 @@ import Card from "./components/Card/Card";
 import InfoItem from "./components/InfoItem/InfoItem";
 import HelpPopup from "./components/HelpPopup/HelpPopup";
 import ComboBox from "./components/ComboBox/ComboBox";
+import DatePicker from "./components/DatePicker/DatePicker";
 
 const frameworkOptions = [
     { label: "React", value: "react" },
@@ -259,6 +260,46 @@ export const components = [
                     onChange={setSelected}
                     placeholder="Select a framework..."
                 />
+            );
+        },
+    },
+    {
+        name: "DatePicker",
+        render: () => {
+            const [date, setDate] = useState<Date | undefined>(undefined);
+            const [dateMMDD, setDateMMDD] = useState<Date | undefined>(
+                undefined,
+            );
+            const [dateISO, setDateISO] = useState<Date | undefined>(undefined);
+
+            return (
+                <div className="flex flex-col gap-4 max-w-xs">
+                    <DatePicker
+                        value={date}
+                        onChange={setDate}
+                        format="DD/MM/YYYY"
+                        placeholder="DD/MM/YYYY"
+                    />
+                    <DatePicker
+                        value={dateMMDD}
+                        onChange={setDateMMDD}
+                        format="MM/DD/YYYY"
+                        placeholder="MM/DD/YYYY"
+                    />
+                    <DatePicker
+                        value={dateISO}
+                        onChange={setDateISO}
+                        format="YYYY-MM-DD"
+                        placeholder="YYYY-MM-DD"
+                    />
+                    <DatePicker
+                        value={date}
+                        onChange={setDate}
+                        placeholder="With min/max"
+                        minDate={new Date()}
+                    />
+                    <DatePicker placeholder="Disabled" disabled />
+                </div>
             );
         },
     },
