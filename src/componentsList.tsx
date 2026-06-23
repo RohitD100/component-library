@@ -132,22 +132,20 @@ export const components = [
   },
 
   {
-    name: "Select",
-    render: () => (
-      <Select
-        options={[
-          { label: "India", value: "india" },
-          { label: "USA", value: "usa" },
-          { label: "UK", value: "uk" },
-          { label: "Canada", value: "canada" },
-        ]}
-        value=""
-        onChange={() => {}}
-        placeholder="Select Country"
-        searchable
-        clearable
-      />
-    ),
-  },
+  name: "Select",
+  render: () => (
+    <Select
+      options={[
+        { label: "India", value: "india" },
+        { label: "USA", value: "usa" },
+        { label: "UK", value: "uk" },
+        { label: "Canada", value: "canada" },
+      ]}
+      value=""
+      onChange={() => {}}
+      placeholder="Select Country"
+      clearable
+    />
+  ),
+},
 ];
-
