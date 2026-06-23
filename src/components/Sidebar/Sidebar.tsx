@@ -3,6 +3,7 @@ import {
     badgeVariants,
     baseSidebarStyle,
     collapseButtonVariants,
+    collapsedNavItem,
     iconStyle,
     logoVariants,
     navItemActive,
@@ -10,6 +11,7 @@ import {
     navItemInactiveVariants,
     navStyle,
     sidebarVariants,
+    tooltipStyle,
 } from "./sidebarStyle";
 import type { SidebarProps } from "./type";
 
@@ -36,15 +38,52 @@ export default function Sidebar({
                 {logoIcon ? (
                     <span className={iconStyle}>{logoIcon}</span>
                 ) : collapsed ? (
-                    logo.charAt(0)
+                    <span className="flex items-center justify-center w-full font-bold text-base">
+                        {logo.charAt(0)}
+                    </span>
                 ) : (
                     logo
                 )}
             </div>
 
-            <nav className={navStyle} role="navigation">
+            <nav
+                className={`${navStyle} ${collapsed ? "overflow-hidden" : "overflow-y-auto"}`}
+                role="navigation"
+            >
                 {items.map((item, index) => {
                     const isActive = item.href === activeHref;
+
+                    if (collapsed) {
+                        return (
+                            <a
+                                key={index}
+                                href={item.href}
+                                aria-current={isActive ? "page" : undefined}
+                                aria-label={item.label}
+                                className={`relative group ${collapsedNavItem} ${isActive ? navItemActive : navItemInactiveVariants[variant]}`}
+                            >
+                                {item.icon ? (
+                                    <span className={iconStyle} aria-hidden="true">
+                                        {item.icon}
+                                    </span>
+                                ) : (
+                                    <span className="w-5 h-5 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                        {item.label.charAt(0)}
+                                    </span>
+                                )}
+
+                                <span className={tooltipStyle}>
+                                    {item.label}
+                                    {item.badge && (
+                                        <span className="ml-1.5 px-1.5 py-0.5 rounded-full text-[10px] bg-purple-500/30 text-purple-200">
+                                            {item.badge}
+                                        </span>
+                                    )}
+                                </span>
+                            </a>
+                        );
+                    }
+
                     return (
                         <a
                             key={index}
@@ -57,12 +96,8 @@ export default function Sidebar({
                                     {item.icon}
                                 </span>
                             )}
-
-                            {!collapsed && (
-                                <span className="flex-1">{item.label}</span>
-                            )}
-
-                            {!collapsed && item.badge && (
+                            <span className="flex-1">{item.label}</span>
+                            {item.badge && (
                                 <span className={badgeVariants[variant]}>
                                     {item.badge}
                                 </span>

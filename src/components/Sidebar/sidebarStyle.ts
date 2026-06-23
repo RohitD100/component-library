@@ -16,6 +16,9 @@ export const navStyle = "flex-1 p-2 overflow-y-auto";
 export const navItemBase =
     "flex items-center gap-3 px-3 py-2.5 mb-1 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-200 no-underline";
 
+export const collapsedNavItem =
+    "flex items-center justify-center px-0 py-2.5 mb-1 rounded-xl text-sm font-medium transition-all duration-200 no-underline w-10 mx-auto";
+
 export const navItemActive =
     "bg-gradient-to-r from-purple-500 to-cyan-500 text-white shadow-sm";
 
@@ -35,3 +38,6 @@ export const badgeVariants = {
     dark: "ml-auto px-2 py-0.5 rounded-full text-xs font-medium bg-purple-500/20 text-purple-300",
     light: "ml-auto px-2 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-600",
 } as const;
+
+export const tooltipStyle =
+    "absolute left-full ml-2 px-2 py-1 rounded-md text-xs font-medium bg-gray-800 text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-50";
