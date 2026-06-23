@@ -7,6 +7,7 @@ import Alert from "./components/Alert/Alert";
 import Avatar from "./components/Avatar/Avatar";
 import ReferralBadge from "./components/ReferralBadge/ReferralBadge";
 import Card from "./components/Card/Card";
+import Sidebar from "./components/Sidebar/Sidebar";
 import InfoItem from "./components/InfoItem/InfoItem";
 import HelpPopup from "./components/HelpPopup/HelpPopup";
 import ComboBox from "./components/ComboBox/ComboBox";
@@ -179,9 +180,38 @@ export const components = [
         ),
     },
     {
+        name: "Sidebar",
+        render: () => (
+            <div className="flex gap-6 h-150">
+                <Sidebar
+                    logo="MyApp"
+                    variant="dark"
+                    activeHref="/dashboard"
+                    items={[
+                        { label: "Dashboard", href: "/dashboard", badge: "3" },
+                        { label: "Users", href: "/users" },
+                        { label: "Settings", href: "/settings" },
+                        { label: "Analytics", href: "/analytics" },
+                    ]}
+                />
+                <Sidebar
+                    logo="MyApp"
+                    variant="light"
+                    activeHref="/users"
+                    items={[
+                        { label: "Dashboard", href: "/dashboard" },
+                        { label: "Users", href: "/users", badge: "5" },
+                        { label: "Settings", href: "/settings" },
+                        { label: "Analytics", href: "/analytics" },
+                    ]}
+                />
+            </div>
+        ),
+    },
+    {
         name: "InfoItem",
         render: () => (
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-4 ">
                 <InfoItem
                     label="Full Name"
                     value="Aditya Sharma"
