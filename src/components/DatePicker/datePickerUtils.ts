@@ -34,6 +34,23 @@ export function formatDate(date: Date, format: DateFormat): string {
     }
 }
 
+export function parseDate(raw: string, format: DateFormat): Date | null {
+    const parts = raw.split(/[-\/]/).map(Number);
+    if (parts.length !== 3 || parts.some(isNaN)) return null;
+
+    let d: Date;
+    if (format === "DD/MM/YYYY") {
+        d = new Date(parts[2], parts[1] - 1, parts[0]);
+    } else if (format === "MM/DD/YYYY") {
+        d = new Date(parts[2], parts[0] - 1, parts[1]);
+    } else {
+        // YYYY-MM-DD
+        d = new Date(parts[0], parts[1] - 1, parts[2]);
+    }
+
+    return isNaN(d.getTime()) ? null : d;
+}
+
 export function isSameDay(a: Date, b: Date): boolean {
     return (
         a.getDate() === b.getDate() &&
