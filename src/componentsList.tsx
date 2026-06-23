@@ -13,7 +13,7 @@ import HelpPopup from "./components/HelpPopup/HelpPopup";
 import ComboBox from "./components/ComboBox/ComboBox";
 import DatePicker from "./components/DatePicker/DatePicker";
 import Table from "./components/Table/Table";
-
+import Select from "./components/Select/Select";
 
 const frameworkOptions = [
     { label: "React", value: "react" },
@@ -409,4 +409,24 @@ export const components = [
             );
         },
     },
+   
+    {
+  name: "Select",
+  render: () => (
+    <Select
+      options={[
+        { label: "India", value: "india" },
+        { label: "USA", value: "usa" },
+        { label: "UK", value: "uk" },
+        { label: "Canada", value: "canada" },
+      ]}
+      value=""
+      onChange={() => {}}
+      placeholder="Select Country"
+      clearable
+    />
+  ),
+},
+
 ];
+
