@@ -10,6 +10,7 @@ import Card from "./components/Card/Card";
 import InfoItem from "./components/InfoItem/InfoItem";
 import HelpPopup from "./components/HelpPopup/HelpPopup";
 import ComboBox from "./components/ComboBox/ComboBox";
+import Table from "./components/Table/Table";
 
 const frameworkOptions = [
     { label: "React", value: "react" },
@@ -259,6 +260,80 @@ export const components = [
                     onChange={setSelected}
                     placeholder="Select a framework..."
                 />
+            );
+        },
+    },
+    {
+        name: "Table",
+        render: () => {
+            const columns = [
+                { key: "name", header: "Name" },
+                { key: "email", header: "Email" },
+                { key: "role", header: "Role" },
+                {
+                    key: "status",
+                    header: "Status",
+                    render: (row: any) => (
+                        <span
+                            className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                                row.status === "Active"
+                                    ? "bg-green-100 text-green-700"
+                                    : "bg-red-100 text-red-600"
+                            }`}
+                        >
+                            {row.status}
+                        </span>
+                    ),
+                },
+            ];
+
+            const data = [
+                {
+                    id: "1",
+                    name: "Aditya Sharma",
+                    email: "aditya@example.com",
+                    role: "Admin",
+                    status: "Active",
+                },
+                {
+                    id: "2",
+                    name: "John Doe",
+                    email: "john@example.com",
+                    role: "Developer",
+                    status: "Inactive",
+                },
+                {
+                    id: "3",
+                    name: "Jane Smith",
+                    email: "jane@example.com",
+                    role: "Designer",
+                    status: "Active",
+                },
+            ];
+
+            return (
+                <div className="flex flex-col gap-6">
+                    <Table
+                        columns={columns}
+                        data={data}
+                        keyExtractor={(row) => row.id}
+                        variant="default"
+                        size="md"
+                    />
+                    <Table
+                        columns={columns}
+                        data={data}
+                        keyExtractor={(row) => row.id}
+                        variant="striped"
+                        size="sm"
+                    />
+                    <Table
+                        columns={[]}
+                        data={[]}
+                        keyExtractor={(row: any) => row.id}
+                        emptyMessage="No users found."
+                    />
+                </div>
             );
         },
     },
