@@ -1,6 +1,5 @@
-import React from "react";
 import { MONTHS } from "./datePickerUtils";
-import type { CustomDate } from "./type";
+import type { DatePickerGridProps } from "./type";
 import {
     weekGridStyle,
     weekLabelStyle,
@@ -23,18 +22,6 @@ import {
     buildCalendarCells,
 } from "./datePickerUtils";
 
-type Props = {
-    viewYear: number;
-    viewMonth: number;
-    value?: Date;
-    today: Date;
-    minDate?: Date;
-    maxDate?: Date;
-    customDates: CustomDate[];
-    onChange?: (date: Date) => void;
-    setOpen: (val: boolean) => void;
-};
-
 const DatePickerGrid = ({
     viewYear,
     viewMonth,
@@ -45,7 +32,7 @@ const DatePickerGrid = ({
     customDates,
     onChange,
     setOpen,
-}: Props) => {
+}: DatePickerGridProps) => {
     const cells = buildCalendarCells(viewYear, viewMonth);
 
     return (

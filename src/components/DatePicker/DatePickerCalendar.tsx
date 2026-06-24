@@ -2,24 +2,9 @@ import { calendarWrapperStyle } from "./datePickerStyle";
 import DatePickerHeader from "./DatePickerHeader";
 import DatePickerGrid from "./DatePickerGrid";
 import DatePickerFooter from "./DatePickerFooter";
-import type { CustomDate } from "./type";
+import type { DatePickerCalanderProps } from "./type";
 
-type Props = {
-    viewYear: number;
-    viewMonth: number;
-    value?: Date;
-    today: Date;
-    years: number[];
-    minDate?: Date;
-    maxDate?: Date;
-    customDates: CustomDate[];
-    onChange?: (date: Date) => void;
-    setOpen: (val: boolean) => void;
-    setViewMonth: (val: number) => void;
-    setViewYear: (fn: (y: number) => number) => void;
-};
-
-const DatePickerCalendar = (props: Props) => {
+const DatePickerCalendar = (props: DatePickerCalanderProps) => {
     return (
         <div
             className={calendarWrapperStyle}

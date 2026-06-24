@@ -1,18 +1,10 @@
-import React from "react";
 import {
     calendarHeaderStyle,
     navButtonStyle,
     quickNavSelectStyle,
 } from "./datePickerStyle";
 import { MONTHS, prevMonth, nextMonth } from "./datePickerUtils";
-
-type Props = {
-    viewMonth: number;
-    viewYear: number;
-    years: number[];
-    setViewMonth: (val: number) => void;
-    setViewYear: (fn: (y: number) => number) => void;
-};
+import type { DatePickerHeaderProps } from "./type";
 
 const DatePickerHeader = ({
     viewMonth,
@@ -20,7 +12,7 @@ const DatePickerHeader = ({
     years,
     setViewMonth,
     setViewYear,
-}: Props) => {
+}: DatePickerHeaderProps) => {
     return (
         <div className={calendarHeaderStyle}>
             <button

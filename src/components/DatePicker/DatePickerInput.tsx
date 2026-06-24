@@ -1,21 +1,10 @@
-import React from "react";
 import {
     triggerWrapperStyle,
     inputStyle,
     inputErrorStyle,
     calendarIconButtonStyle,
 } from "./datePickerStyle";
-
-type Props = {
-    value: string;
-    placeholder: string;
-    disabled: boolean;
-    inputError: boolean;
-    open: boolean;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    onFocus: () => void;
-    onToggle: () => void;
-};
+import type { DatePickerInputProps } from "./type";
 
 const DatePickerInput = ({
     value,
@@ -26,7 +15,7 @@ const DatePickerInput = ({
     onChange,
     onFocus,
     onToggle,
-}: Props) => {
+}: DatePickerInputProps) => {
     return (
         <div className={triggerWrapperStyle}>
             <input

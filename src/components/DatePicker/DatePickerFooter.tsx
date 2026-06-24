@@ -1,18 +1,10 @@
-import React from "react";
 import {
     footerStyle,
     todayButtonStyle,
     clearButtonStyle,
 } from "./datePickerStyle";
 import { handleToday, handleClear } from "./datePickerUtils";
-
-type Props = {
-    today: Date;
-    onChange?: (date: Date) => void;
-    setViewYear: (val: number) => void;
-    setViewMonth: (val: number) => void;
-    setOpen: (val: boolean) => void;
-};
+import type { DatePickerFooterProps } from "./type";
 
 const DatePickerFooter = ({
     today,
@@ -20,7 +12,7 @@ const DatePickerFooter = ({
     setViewYear,
     setViewMonth,
     setOpen,
-}: Props) => {
+}: DatePickerFooterProps) => {
     return (
         <div className={footerStyle}>
             <button
