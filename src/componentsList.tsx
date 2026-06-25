@@ -13,6 +13,7 @@ import HelpPopup from "./components/HelpPopup/HelpPopup";
 import ComboBox from "./components/ComboBox/ComboBox";
 import DatePicker from "./components/DatePicker/DatePicker";
 import Table from "./components/Table/Table";
+import { Checkbox } from "./components/Checkbox/Checkbox";
 import Select from "./components/Select/Select";
 
 const frameworkOptions = [
@@ -412,4 +413,49 @@ export const components = [
       );
     },
   },
+  
+    {
+    name: "Checkbox",
+    render: () => {
+        const [checked, setChecked] = useState(false);
+        return (
+            <div className="flex flex-col gap-3">
+                <Checkbox
+                    label="Unchecked"
+                    checked={false}
+                    onChange={() => {}}
+                />
+                <Checkbox
+                    label="Checked"
+                    checked={true}
+                    onChange={() => {}}
+                />
+                <Checkbox
+                    label="Disabled"
+                    disabled
+                />
+                <Checkbox
+                    label="Disabled checked"
+                    checked
+                    disabled
+                />
+                <Checkbox
+                    label="With description"
+                    description="This is a helper text below the label."
+                    checked={checked}
+                    onChange={(e) => setChecked(e.target.checked)}
+                />
+                <Checkbox
+                    label="With error"
+                    error="This field is required."
+                />
+                <div className="flex gap-4 items-center">
+                    <Checkbox label="Small"  size="sm" defaultChecked />
+                    <Checkbox label="Medium" size="md" defaultChecked />
+                    <Checkbox label="Large"  size="lg" defaultChecked />
+                </div>
+            </div>
+        );
+    },
+    }
 ];
