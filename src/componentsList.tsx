@@ -15,6 +15,7 @@ import DatePicker from "./components/DatePicker/DatePicker";
 import Table from "./components/Table/Table";
 import { Checkbox } from "./components/Checkbox/Checkbox";
 import Select from "./components/Select/Select";
+import Icon from "./components/Icon/Icon";
 
 const frameworkOptions = [
   { label: "React", value: "react" },
@@ -413,49 +414,54 @@ export const components = [
       );
     },
   },
-  
-    {
+
+  {
     name: "Checkbox",
     render: () => {
-        const [checked, setChecked] = useState(false);
-        return (
-            <div className="flex flex-col gap-3">
-                <Checkbox
-                    label="Unchecked"
-                    checked={false}
-                    onChange={() => {}}
-                />
-                <Checkbox
-                    label="Checked"
-                    checked={true}
-                    onChange={() => {}}
-                />
-                <Checkbox
-                    label="Disabled"
-                    disabled
-                />
-                <Checkbox
-                    label="Disabled checked"
-                    checked
-                    disabled
-                />
-                <Checkbox
-                    label="With description"
-                    description="This is a helper text below the label."
-                    checked={checked}
-                    onChange={(e) => setChecked(e.target.checked)}
-                />
-                <Checkbox
-                    label="With error"
-                    error="This field is required."
-                />
-                <div className="flex gap-4 items-center">
-                    <Checkbox label="Small"  size="sm" defaultChecked />
-                    <Checkbox label="Medium" size="md" defaultChecked />
-                    <Checkbox label="Large"  size="lg" defaultChecked />
-                </div>
-            </div>
-        );
+      const [checked, setChecked] = useState(false);
+      return (
+        <div className="flex flex-col gap-3">
+          <Checkbox label="Unchecked" checked={false} onChange={() => {}} />
+          <Checkbox label="Checked" checked={true} onChange={() => {}} />
+          <Checkbox label="Disabled" disabled />
+          <Checkbox label="Disabled checked" checked disabled />
+          <Checkbox
+            label="With description"
+            description="This is a helper text below the label."
+            checked={checked}
+            onChange={(e) => setChecked(e.target.checked)}
+          />
+          <Checkbox label="With error" error="This field is required." />
+          <div className="flex gap-4 items-center">
+            <Checkbox label="Small" size="sm" defaultChecked />
+            <Checkbox label="Medium" size="md" defaultChecked />
+            <Checkbox label="Large" size="lg" defaultChecked />
+          </div>
+        </div>
+      );
     },
-    }
+  },
+
+  {
+    name: "Icon",
+    render: () => (
+      <div className="flex flex-wrap gap-6 items-center">
+        <Icon icon="draw" size="xs" />
+        <Icon icon="reload" size="sm" />
+        <Icon icon="lock" size="md" />
+        <Icon icon="house" size="lg" />
+        <Icon icon="ghost" size="xl" />
+        <Icon icon="menu" size="2xl" />
+
+        {/* Custom colors */}
+        <Icon icon="draw" size="md" color="#8b5cf6" />
+        <Icon icon="lock" size="md" color="#ef4444" />
+        <Icon icon="house" size="md" color="#22c55e" />
+
+        {/* Tailwind color class */}
+        <Icon icon="logOut" size="lg" colorClass="text-indigo-400" />
+        <Icon icon="reload" size="lg" colorClass="text-orange-400" />
+      </div>
+    ),
+  },
 ];
