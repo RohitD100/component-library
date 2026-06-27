@@ -16,6 +16,8 @@ import Table from "./components/Table/Table";
 import { Checkbox } from "./components/Checkbox/Checkbox";
 import Select from "./components/Select/Select";
 import Icon from "./components/Icon/Icon";
+// Naya Link component yahan import ho raha hai
+import { Link } from "./components/Link/Link"; 
 
 const frameworkOptions = [
   { label: "React", value: "react" },
@@ -50,6 +52,56 @@ export const components = [
     render: () => (
       <div style={{ marginTop: "10px" }}>
         <LinearLoader />
+      </div>
+    ),
+  },
+  {
+    name: "Link",
+    render: () => (
+      <div className="flex flex-col gap-4">
+        {/* Visual Variants */}
+        <div className="flex flex-wrap gap-6 items-center border-b border-slate-100 pb-4">
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Default</span>
+            <Link href="#">Default Link</Link>
+          </div>
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Primary</span>
+            <Link href="#" variant="primary">Primary Link</Link>
+          </div>
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Secondary</span>
+            <Link href="#" variant="secondary">Secondary Link</Link>
+          </div>
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Underlined</span>
+            <Link href="#" variant="underlined">Underlined Link</Link>
+          </div>
+        </div>
+
+        {/* Inline & Special States */}
+        <div className="flex flex-wrap gap-8 items-start">
+          <div className="flex flex-col gap-1 max-w-xs">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Inline Text</span>
+            <p className="text-sm text-slate-600">
+              Please <Link href="#" variant="inline">read the documentation</Link> carefully before proceeding.
+            </p>
+          </div>
+          
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">External Indicator</span>
+            <Link href="https://github.com" isExternal showExternalIndicator>
+              GitHub Repository
+            </Link>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Disabled</span>
+            <Link href="https://google.com" isDisabled>
+              Disabled Link
+            </Link>
+          </div>
+        </div>
       </div>
     ),
   },
@@ -391,7 +443,6 @@ export const components = [
       );
     },
   },
-
   {
     name: "Select",
     render: () => {
@@ -414,52 +465,51 @@ export const components = [
       );
     },
   },
-  
-    {
+  {
     name: "Checkbox",
     render: () => {
-        const [checked, setChecked] = useState(false);
-        return (
-            <div className="flex flex-col gap-3">
-                <Checkbox
-                    label="Unchecked"
-                    checked={false}
-                    onChange={() => {}}
-                />
-                <Checkbox
-                    label="Checked"
-                    checked={true}
-                    onChange={() => {}}
-                />
-                <Checkbox
-                    label="Disabled"
-                    disabled
-                />
-                <Checkbox
-                    label="Disabled checked"
-                    checked
-                    disabled
-                />
-                <Checkbox
-                    label="With description"
-                    description="This is a helper text below the label."
-                    checked={checked}
-                    onChange={(e) => setChecked(e.target.checked)}
-                />
-                <Checkbox
-                    label="With error"
-                    error="This field is required."
-                />
-                <div className="flex gap-4 items-center">
-                    <Checkbox label="Small"  size="sm" defaultChecked />
-                    <Checkbox label="Medium" size="md" defaultChecked />
-                    <Checkbox label="Large"  size="lg" defaultChecked />
-                </div>
-            </div>
-        );
+      const [checked, setChecked] = useState(false);
+      return (
+        <div className="flex flex-col gap-3">
+          <Checkbox
+            label="Unchecked"
+            checked={false}
+            onChange={() => {}}
+          />
+          <Checkbox
+            label="Checked"
+            checked={true}
+            onChange={() => {}}
+          />
+          <Checkbox
+            label="Disabled"
+            disabled
+          />
+          <Checkbox
+            label="Disabled checked"
+            checked
+            disabled
+          />
+          <Checkbox
+            label="With description"
+            description="This is a helper text below the label."
+            checked={checked}
+            onChange={(e) => setChecked(e.target.checked)}
+          />
+          <Checkbox
+            label="With error"
+            error="This field is required."
+          />
+          <div className="flex gap-4 items-center">
+            <Checkbox label="Small"  size="sm" defaultChecked />
+            <Checkbox label="Medium" size="md" defaultChecked />
+            <Checkbox label="Large"  size="lg" defaultChecked />
+          </div>
+        </div>
+      );
     },
-    },
-    {
+  },
+  {
     name: "Icon",
     render: () => (
       <div className="flex flex-wrap gap-6 items-center">
