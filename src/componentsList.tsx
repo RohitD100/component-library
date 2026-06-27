@@ -15,6 +15,7 @@ import DatePicker from "./components/DatePicker/DatePicker";
 import Table from "./components/Table/Table";
 import { Checkbox } from "./components/Checkbox/Checkbox";
 import Select from "./components/Select/Select";
+import Icon from "./components/Icon/Icon";
 
 const frameworkOptions = [
   { label: "React", value: "react" },
@@ -457,5 +458,27 @@ export const components = [
             </div>
         );
     },
-    }
+    },
+    {
+    name: "Icon",
+    render: () => (
+      <div className="flex flex-wrap gap-6 items-center">
+        <Icon icon="draw" size="xs" />
+        <Icon icon="reload" size="sm" />
+        <Icon icon="lock" size="md" />
+        <Icon icon="house" size="lg" />
+        <Icon icon="ghost" size="xl" />
+        <Icon icon="menu" size="2xl" />
+
+        {/* Custom colors */}
+        <Icon icon="draw" size="md" color="#8b5cf6" />
+        <Icon icon="lock" size="md" color="#ef4444" />
+        <Icon icon="house" size="md" color="#22c55e" />
+
+        {/* Tailwind color class */}
+        <Icon icon="logOut" size="lg" colorClass="text-indigo-400" />
+        <Icon icon="reload" size="lg" colorClass="text-orange-400" />
+      </div>
+    ),
+  },
 ];
