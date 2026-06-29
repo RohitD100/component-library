@@ -1,0 +1,200 @@
+/* ─── Overlay ─────────────────────────────────────────────────────────────── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+/* ─── Panel ───────────────────────────────────────────────────────────────── */
+.modal-panel {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 0.5px solid #e5e5e5;
+    width: 420px;
+    max-width: 90vw;
+    padding: 1.5rem;
+    position: relative;
+}
+
+/* ─── Close button ────────────────────────────────────────────────────────── */
+.modal-close-btn {
+    border: none;
+    background: transparent;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    font-size: 18px;
+    color: #080101;
+    line-height: 1;
+}
+
+/* ─── Generic body wrapper ────────────────────────────────────────────────── */
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* ─── Confirmation modal ──────────────────────────────────────────────────── */
+.modal-description {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+/* ─── Shared buttons ──────────────────────────────────────────────────────── */
+.btn-cancel {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    border: 0.5px solid #d1d1d1;
+    background: #ffffff;
+    color: #111;
+    cursor: pointer;
+}
+
+.btn-danger {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    border: none;
+    background: #fee2e2;
+    color: #b91c1c;
+    cursor: pointer;
+}
+
+.btn-danger:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* ─── Information modal ───────────────────────────────────────────────────── */
+.modal-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.modal-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #eff6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.modal-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    color: #111;
+}
+
+.modal-scroll-content {
+    max-height: 220px;
+    overflow-y: auto;
+    font-size: 13px;
+    color: #444;
+    line-height: 1.7;
+    padding: 12px 14px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 0.5px solid #e5e5e5;
+}
+
+.modal-scroll-content p {
+    margin: 0 0 0.75rem;
+}
+
+.modal-scroll-content p:last-child {
+    margin: 0;
+}
+
+.modal-scroll-content .section-heading {
+    font-weight: 600;
+    color: #111;
+}
+
+.modal-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.modal-checkbox-label input[type='checkbox'] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #2563eb;
+}
+
+.btn-primary {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    border: none;
+    background: #2563eb;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary:disabled {
+    background: #d1d5db;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+/* ─── Error Modal ─────────────────────────────────────────────────────────── */
+.modal-icon-error {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fef2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.btn-retry {
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    border: none;
+    background: #dc2626;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-retry:disabled {
+    background: #d1d5db;
+    color: #9ca3af;
+    cursor: not-allowed;
+}

@@ -3,16 +3,16 @@ import Button from "./components/Button/Button";
 import { CircularLoader } from "./components/CircularLoader/CircularLoader";
 import { LinearLoader } from "./components/LinearLoader/LinearLoader";
 import Input from "./components/Input/Input";
-import BaseModal from "./components/ModelComponents/BaseModel";
-import ConfirmationModal from "./components/ModelComponents/ConfirmationModel";
+import BaseModal from "./components/ModalComponents/BaseModal";
+import ConfirmationModal from "./components/ModalComponents/ConfirmationModel";
+import InformationModal from "./components/ModalComponents/InformationModel";
+import ErrorModal from "./components/ModalComponents/ErrorModal";
 
 const BaseModalExample = () => {
   const [isOpen, setIsOpen] = useState(false)
   return (
     <>
-      <button onClick={() => setIsOpen(true)} style={{ border:"2px solid #0e0505", padding: "8px 16px" }}>
-        Open Base Modal
-      </button>
+      <button onClick={() => setIsOpen(true)}>Open Base Modal</button>
       <BaseModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <h2 style={{ fontSize: 16, fontWeight: 500, margin: '0 0 0.5rem' }}>Base Modal</h2>
         <p style={{ fontSize: 14, color: '#555' }}>This is the base modal content.</p>
@@ -34,9 +34,7 @@ const ConfirmationModalExample = () => {
 
   return (
     <>
-      <button onClick={() => setIsOpen(true)} style={{ border: "2px solid #0e0505", padding: "8px 16px" }}>
-        Delete
-      </button>
+      <button onClick={() => setIsOpen(true)}>Delete Project Alpha</button>
       <ConfirmationModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
@@ -47,6 +45,52 @@ const ConfirmationModalExample = () => {
     </>
   )
 }
+
+const InformationModalExample = () => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>View Terms & Conditions</button>
+      <InformationModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onAccept={() => {
+          setIsOpen(false)
+          console.log('Terms accepted!')
+        }}
+      />
+    </>
+  )
+}
+
+
+
+const ErrorModalExample = () => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleRetry = async () => {
+    setIsLoading(true)
+    await new Promise((resolve) => setTimeout(resolve, 1500))
+    setIsLoading(false)
+    setIsOpen(false)
+  }
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Show Error</button>
+      <ErrorModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onRetry={handleRetry}
+        errorMessage="Failed to save your data. Please try again."
+        isLoading={isLoading}
+      />
+    </>
+  )
+}
+
 
 export const components = [
     {
@@ -90,5 +134,12 @@ export const components = [
         name: "Confirmation Modal",
         render: () => <ConfirmationModalExample />,
     },
+    {
+        name: "Information Modal",
+        render: () => <InformationModalExample />,
+    },
+    {
+        name: "Error Modal",
+        render: () => <ErrorModalExample />,
+    }
 ];
-
