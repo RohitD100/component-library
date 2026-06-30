@@ -1,15 +1,24 @@
 import type { TableProps } from "./type";
 import {
     tableWrapperStyle,
+    tableWrapperDarkStyle,
     tableBaseStyle,
+    tableBaseDarkStyle,
     theadStyle,
+    theadDarkStyle,
     thBaseStyle,
+    thDarkStyle,
     tbodyStyle,
+    tbodyDarkStyle,
     sizeStyles,
     variantStyles,
+    variantDarkStyles,
     tdBaseStyle,
+    tdDarkStyle,
     emptyStateStyle,
+    emptyStateDarkStyle,
     trHoverStyle,
+    trHoverDarkStyle,
 } from "./tableStyle";
 
 function Table<T>({
@@ -18,19 +27,25 @@ function Table<T>({
     keyExtractor,
     variant = "default",
     size = "md",
+    theme = "light",
     emptyMessage = "No data available.",
     className = "",
     style = {},
 }: TableProps<T>) {
+    const isDark = theme === "dark";
+
     return (
-        <div className={`${tableWrapperStyle} ${className}`} style={style}>
-            <table className={tableBaseStyle}>
-                <thead className={theadStyle}>
+        <div
+            className={`${isDark ? tableWrapperDarkStyle : tableWrapperStyle} ${className}`}
+            style={style}
+        >
+            <table className={isDark ? tableBaseDarkStyle : tableBaseStyle}>
+                <thead className={isDark ? theadDarkStyle : theadStyle}>
                     <tr>
                         {columns.map((col) => (
                             <th
                                 key={col.key}
-                                className={thBaseStyle}
+                                className={isDark ? thDarkStyle : thBaseStyle}
                                 style={col.width ? { width: col.width } : {}}
                             >
                                 {col.header}
@@ -39,12 +54,14 @@ function Table<T>({
                     </tr>
                 </thead>
 
-                <tbody className={tbodyStyle}>
+                <tbody className={isDark ? tbodyDarkStyle : tbodyStyle}>
                     {data.length === 0 ? (
                         <tr>
                             <td
                                 colSpan={columns.length}
-                                className={emptyStateStyle}
+                                className={
+                                    isDark ? emptyStateDarkStyle : emptyStateStyle
+                                }
                             >
                                 {emptyMessage}
                             </td>
@@ -53,12 +70,20 @@ function Table<T>({
                         data.map((row) => (
                             <tr
                                 key={keyExtractor(row)}
-                                className={`${trHoverStyle} ${variantStyles[variant]}`}
+                                className={`${
+                                    isDark ? trHoverDarkStyle : trHoverStyle
+                                } ${
+                                    isDark
+                                        ? variantDarkStyles[variant]
+                                        : variantStyles[variant]
+                                }`}
                             >
                                 {columns.map((col) => (
                                     <td
                                         key={col.key}
-                                        className={`${tdBaseStyle} ${sizeStyles[size]}`}
+                                        className={`${
+                                            isDark ? tdDarkStyle : tdBaseStyle
+                                        } ${sizeStyles[size]}`}
                                     >
                                         {col.render
                                             ? col.render(row)

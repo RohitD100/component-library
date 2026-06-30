@@ -13,6 +13,7 @@ export type TableProps<T> = {
     keyExtractor: (row: T) => string;
     variant?: "default" | "striped" | "bordered";
     size?: "sm" | "md" | "lg";
+    theme?: "light" | "dark";
     emptyMessage?: string;
     className?: string;
     style?: React.CSSProperties;
