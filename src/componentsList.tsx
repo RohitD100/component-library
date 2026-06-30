@@ -502,7 +502,7 @@ export const components = [
         columns={columns}
         data={data}
         keyExtractor={(row) => row.count}
-        pageSize={9}
+        pageSize={4}
         emptyState="No user available now."
         />
          <TablePagination 
