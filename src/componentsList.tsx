@@ -14,7 +14,7 @@ import ComboBox from "./components/ComboBox/ComboBox";
 import DatePicker from "./components/DatePicker/DatePicker";
 import Table from "./components/Table/Table";
 import Select from "./components/Select/Select";
-import TablePagination from "./components/TableWithPagination/TablePagination"
+import TablePagination , {type Column} from "./components/TableWithPagination/TablePagination"
 
 
 const frameworkOptions = [
@@ -418,6 +418,13 @@ export const components = [
   {
     name:"TableWithPagination",
     render:()=>{
+      type Row = {
+        label: string;
+        status: string;
+        role: string;
+        friend: string;
+        count: string;
+      };
       const data2 = []
       const data = [
         { label: "Rajiv", status: "Active", role: "Developer", friend: "yes", count: "1" },
@@ -472,29 +479,15 @@ export const components = [
         { label: "Aman", status: "Active", role: "Scrum Master", friend: "no", count: "50" }
       ]
 
-     const columns = [
-      {
-        label:"Sr.No",
-        key:"count"
-      },
-      {
-        label:"Name",
-        key :"label"
-      },
-      {
-        label:"Status",
-        key :"status"
-      },
-      {
-        label:"Role",
-        key :"role"
-      },
-      {
-        label:"Friend",
-        key :"friend"
-      },
+      const columns: Column<Row>[] = [
+        { label: "Sr.No", key: "count" },
+        { label: "Name", key: "label" },
+        { label: "Status", key: "status" },
+        { label: "Role", key: "role" },
+        { label: "Friend", key: "friend" },
+      ];
       
-     ]
+     
 
      return (
       <div>
@@ -502,7 +495,7 @@ export const components = [
         columns={columns}
         data={data}
         keyExtractor={(row) => row.count}
-        pageSize={4}
+        pageSize={10}
         emptyState="No user available now."
         />
          <TablePagination 
