@@ -1,11 +1,6 @@
 import { useEffect } from 'react'
-import './modalStyling.css'
-
-export interface BaseModalProps {
-  isOpen: boolean
-  onClose: () => void
-  
-}
+import type { BaseModalProps } from './types'
+import { modalOverlay, modalPanel, modalCloseBtn } from './modalStyling'
 
 export default function BaseModal({ isOpen, onClose, children }: BaseModalProps) {
   useEffect(() => {
@@ -17,21 +12,9 @@ export default function BaseModal({ isOpen, onClose, children }: BaseModalProps)
   if (!isOpen) return null
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      onClick={onClose}
-      className="modal-overlay"
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        className="modal-panel"
-      >
-        <button
-          onClick={onClose}
-          aria-label="Close"
-          className="modal-close-btn"
-        >
+    <div role="dialog" aria-modal="true" onClick={onClose} className={modalOverlay}>
+      <div onClick={(e) => e.stopPropagation()} className={modalPanel}>
+        <button onClick={onClose} aria-label="Close" className={modalCloseBtn}>
           ✕
         </button>
         {children}
@@ -39,4 +22,3 @@ export default function BaseModal({ isOpen, onClose, children }: BaseModalProps)
     </div>
   )
 }
-
