@@ -416,8 +416,8 @@ export const components = [
   },
 
   {
-    name:"TableWithPagination",
-    render:()=>{
+    name: "TableWithPagination",
+    render: () => {
       type Row = {
         label: string;
         status: string;
@@ -425,8 +425,10 @@ export const components = [
         friend: string;
         count: string;
       };
-      const data2 = []
-      const data = [
+  
+      const data2: Row[] = [];
+  
+      const data: Row[] = [
         { label: "Rajiv", status: "Active", role: "Developer", friend: "yes", count: "1" },
         { label: "Aarav", status: "Active", role: "Designer", friend: "no", count: "2" },
         { label: "Aditi", status: "Inactive", role: "Product Manager", friend: "yes", count: "3" },
@@ -476,40 +478,40 @@ export const components = [
         { label: "Yash", status: "Active", role: "QA Engineer", friend: "yes", count: "47" },
         { label: "Zara", status: "Active", role: "Designer", friend: "no", count: "48" },
         { label: "Zoya", status: "On Leave", role: "Developer", friend: "yes", count: "49" },
-        { label: "Aman", status: "Active", role: "Scrum Master", friend: "no", count: "50" }
-      ]
-
-      const columns: Column<Row>[] = [
-        { label: "Sr.No", key: "count" },
-        { label: "Name", key: "label" },
-        { label: "Status", key: "status" },
-        { label: "Role", key: "role" },
-        { label: "Friend", key: "friend" },
+        { label: "Aman", status: "Active", role: "Scrum Master", friend: "no", count: "50" },
       ];
-      
-     
-
-     return (
-      <div>
-        <TablePagination 
-        columns={columns}
-        data={data}
-        keyExtractor={(row) => row.count}
-        pageSize={10}
-        emptyState="No user available now."
-        />
-         <TablePagination 
-        columns={columns}
-        data={data2}
-        keyExtractor={(row) => row.count}
-        pageSize={10}
-        emptyState="No user available now."
-        />
-      </div>
-     )
-
-
-    }
+  
+      const columns: Column<Row>[] = [
+        { label: "Name",   key: "label",  sortable: true  },
+        { label: "Status", key: "status", sortable: true  },
+        { label: "Role",   key: "role",   sortable: true  },
+        { label: "Friend", key: "friend", sortable: false }, // simple yes/no — sorting not useful
+      ];
+  
+      return (
+        <div>
+          {/* Full dataset — binary search on "label", all columns sortable */}
+          <TablePagination
+            columns={columns}
+            data={data}
+            keyExtractor={(row) => row.count}
+            pageSize={10}
+            emptyState="No user available now."
+            binarySearchKey="label"
+          />
+  
+          {/* Empty dataset — shows emptyState */}
+          <TablePagination
+            columns={columns}
+            data={data2}
+            keyExtractor={(row) => row.count}
+            pageSize={10}
+            emptyState="No user available now."
+            binarySearchKey="label"
+          />
+        </div>
+      );
+    },
   },
 ];
 

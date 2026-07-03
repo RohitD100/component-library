@@ -1,45 +1,120 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
+import type { Column, SortConfig, SortDirection, TablePaginationProps } from "./type";
+import { tableStyles } from "./TablePaginationStyle";
 
-export type Column<T> = {
-  key: keyof T;
-  label: string;
-  render?: (row: T) => React.ReactNode;
-};
+export type { Column };
 
-type TablePaginationProps<T> = {
-  columns: Column<T>[];
-  data: T[];
-  keyExtractor: (row: T) => string;
-  pageSize?: number;
-  emptyState?: string;
-};
+// ── Binary search (prefix-match) ───────────────────────────────────────────────
+function binarySearch<T>(arr: T[], key: keyof T, target: string): T[] {
+  const lower = target.toLowerCase();
+  let low = 0;
+  let high = arr.length - 1;
+  const results: T[] = [];
+  let found = -1;
 
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    const midVal = arr[mid][key]?.toString().toLowerCase() ?? "";
+    if (midVal.startsWith(lower)) { found = mid; break; }
+    else if (midVal < lower) low = mid + 1;
+    else high = mid - 1;
+  }
+
+  if (found === -1) return results;
+
+  let left = found;
+  while (left >= 0 && (arr[left][key]?.toString().toLowerCase() ?? "").startsWith(lower)) {
+    results.push(arr[left--]);
+  }
+  let right = found + 1;
+  while (right < arr.length && (arr[right][key]?.toString().toLowerCase() ?? "").startsWith(lower)) {
+    results.push(arr[right++]);
+  }
+
+  return results;
+}
+
+// ── Merge sort ─────────────────────────────────────────────────────────────────
+function mergeSort<T>(arr: T[], key: keyof T, direction: "asc" | "desc"): T[] {
+  if (arr.length <= 1) return arr;
+  const mid = Math.floor(arr.length / 2);
+  const left = mergeSort(arr.slice(0, mid), key, direction);
+  const right = mergeSort(arr.slice(mid), key, direction);
+  return merge(left, right, key, direction);
+}
+
+function merge<T>(left: T[], right: T[], key: keyof T, direction: "asc" | "desc"): T[] {
+  const result: T[] = [];
+  let i = 0, j = 0;
+  while (i < left.length && j < right.length) {
+    const a = left[i][key]?.toString().toLowerCase() ?? "";
+    const b = right[j][key]?.toString().toLowerCase() ?? "";
+    (direction === "asc" ? a <= b : a >= b) ? result.push(left[i++]) : result.push(right[j++]);
+  }
+  return [...result, ...left.slice(i), ...right.slice(j)];
+}
+
+// ── Sort icon ──────────────────────────────────────────────────────────────────
+function SortIcon({ direction }: { direction: SortDirection }) {
+  if (direction === "asc")
+    return <span className={tableStyles.sortIconAsc} aria-label="Sorted ascending">↑</span>;
+  if (direction === "desc")
+    return <span className={tableStyles.sortIconDesc} aria-label="Sorted descending">↓</span>;
+  return <span className={tableStyles.sortIconNone} aria-label="Sortable">⇅</span>;
+}
+
+// ── Main component ─────────────────────────────────────────────────────────────
 function TablePagination<T>({
   columns,
   data,
   keyExtractor,
   pageSize = 10,
-  emptyState = "No user available now."
+  emptyState = "No user available now.",
+  query,
+  binarySearchKey,
 }: TablePaginationProps<T>) {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [sortConfig, setSortConfig] = useState<SortConfig<T>>({ key: null, direction: "none" });
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const totalPages = Math.ceil(data.length / pageSize);
+  // 1️⃣ Search
+  const searchedData =
+    query && binarySearchKey
+      ? binarySearch(
+          [...data].sort((a, b) =>
+            (a[binarySearchKey]?.toString() ?? "").localeCompare(b[binarySearchKey]?.toString() ?? "")
+          ),
+          binarySearchKey,
+          query
+        )
+      : data;
 
-  const paginatedData = data.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize
-  );
+  // 2️⃣ Sort
+  const sortedData =
+    sortConfig.key && sortConfig.direction !== "none"
+      ? mergeSort([...searchedData], sortConfig.key, sortConfig.direction)
+      : searchedData;
+
+  // 3️⃣ Paginate
+  const totalPages = Math.ceil(sortedData.length / pageSize);
+  const paginatedData = sortedData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
 
-  // Track horizontal overflow so we can show fade edges + know when scrolling is possible
+  const handleSort = (key: keyof T) => {
+    setSortConfig((prev) => {
+      if (prev.key !== key) return { key, direction: "asc" };
+      if (prev.direction === "none") return { key, direction: "asc" };
+      if (prev.direction === "asc") return { key, direction: "desc" };
+      return { key: null, direction: "none" };
+    });
+    setCurrentPage(1);
+  };
+
   const updateScrollState = useCallback(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -51,24 +126,14 @@ function TablePagination<T>({
     updateScrollState();
     const el = scrollRef.current;
     if (!el) return;
-
-    const handleResize = () => updateScrollState();
-    window.addEventListener("resize", handleResize);
-
-    const resizeObserver = new ResizeObserver(() => updateScrollState());
-    resizeObserver.observe(el);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      resizeObserver.disconnect();
-    };
+    window.addEventListener("resize", updateScrollState);
+    const ro = new ResizeObserver(updateScrollState);
+    ro.observe(el);
+    return () => { window.removeEventListener("resize", updateScrollState); ro.disconnect(); };
   }, [updateScrollState, paginatedData.length, columns.length]);
 
-  // Build a compact page list with ellipses, e.g. 1 2 3 ... 8 9 10
   const getPageList = (): (number | "ellipsis")[] => {
-    if (totalPages <= 7) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
-    }
+    if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
     const pages: (number | "ellipsis")[] = [1];
     if (currentPage > 3) pages.push("ellipsis");
     const start = Math.max(2, currentPage - 1);
@@ -79,51 +144,63 @@ function TablePagination<T>({
     return pages;
   };
 
-  const pageList = getPageList();
-
   return (
-    <div className="w-full ml-auto mr-auto my-6">
-      <div className="rounded-2xl border border-gray-200/80 bg-white shadow-sm overflow-hidden">
-        {/* Scrollable table area with fade edges to signal overflow */}
-        <div className="relative">
-          <div
-            ref={scrollRef}
-            onScroll={updateScrollState}
-            className="overflow-x-auto [-webkit-overflow-scrolling:touch] [scrollbar-width:thin]"
-          >
-            <table className="w-full min-w-max border-collapse">
+    <div className={tableStyles.wrapper}>
+      <div className={tableStyles.card}>
+
+        {/* Scrollable table */}
+        <div className={tableStyles.scrollWrapper}>
+          {canScrollLeft && <div className={tableStyles.shadowLeft} />}
+          {canScrollRight && <div className={tableStyles.shadowRight} />}
+
+          <div ref={scrollRef} onScroll={updateScrollState} className={tableStyles.scrollContainer}>
+            <table className={tableStyles.table}>
               <thead>
-                <tr className="border-b border-gray-100">
-                  {columns.map((col) => (
-                    <th
-                      key={String(col.key)}
-                      className="px-3 py-2.5 sm:px-6 sm:py-3.5 text-left text-[9px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-400 bg-gray-50/80 whitespace-nowrap"
-                    >
-                      {col.label}
-                    </th>
-                  ))}
+                <tr className={tableStyles.theadRow}>
+                  {columns.map((col) => {
+                    const isSortable = col.sortable !== false;
+                    const isActive = sortConfig.key === col.key;
+                    const direction: SortDirection = isActive ? sortConfig.direction : "none";
+
+                    return (
+                      <th
+                        key={String(col.key)}
+                        onClick={isSortable ? () => handleSort(col.key) : undefined}
+                        className={[
+                          tableStyles.th,
+                          isSortable ? tableStyles.thSortable : "",
+                          isActive && direction !== "none" ? tableStyles.thSortActive : "",
+                        ].filter(Boolean).join(" ")}
+                        aria-sort={
+                          isActive
+                            ? direction === "asc" ? "ascending"
+                            : direction === "desc" ? "descending"
+                            : "none"
+                            : undefined
+                        }
+                      >
+                        <span className={tableStyles.thInner}>
+                          {col.label}
+                          {isSortable && <SortIcon direction={direction} />}
+                        </span>
+                      </th>
+                    );
+                  })}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-100">
+
+              <tbody className={tableStyles.tbodyDivide}>
                 {paginatedData.length === 0 ? (
                   <tr>
-                    <td colSpan={columns.length} className="px-3 py-10 sm:px-6 sm:py-16 text-center">
-                      <div className="flex flex-col items-center gap-2">
-                        <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-violet-50 flex items-center justify-center text-violet-400 text-base sm:text-lg">
-                          ⌀
-                        </div>
-                        <p className="text-xs sm:text-sm font-medium text-gray-400">{emptyState}</p>
-                      </div>
+                    <td colSpan={columns.length} className={tableStyles.emptyCell}>
+                      <p className={tableStyles.emptyText}>{emptyState}</p>
                     </td>
                   </tr>
                 ) : (
                   paginatedData.map((row) => (
-                    <tr key={keyExtractor(row)} className="transition-colors hover:bg-violet-50/50">
+                    <tr key={keyExtractor(row)} className={tableStyles.tr}>
                       {columns.map((col) => (
-                        <td
-                          key={String(col.key)}
-                          className="px-3 py-2.5 sm:px-6 sm:py-3.5 text-xs sm:text-sm text-gray-700 whitespace-nowrap"
-                        >
+                        <td key={String(col.key)} className={tableStyles.td}>
                           {col.render ? col.render(row) : (row[col.key] as React.ReactNode)}
                         </td>
                       ))}
@@ -133,64 +210,41 @@ function TablePagination<T>({
               </tbody>
             </table>
           </div>
-
-          {/* Fade overlays — only visible when there's actually more content to scroll to */}
-          <div
-            aria-hidden
-            className={`pointer-events-none absolute top-0 left-0 h-full w-8 bg-gradient-to-r from-white to-transparent transition-opacity duration-200 ${
-              canScrollLeft ? "opacity-100" : "opacity-0"
-            }`}
-          />
-          <div
-            aria-hidden
-            className={`pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l from-white to-transparent transition-opacity duration-200 ${
-              canScrollRight ? "opacity-100" : "opacity-0"
-            }`}
-          />
         </div>
 
-        {/* Footer bar with pagination, inside the same card */}
+        {/* Pagination footer */}
         {totalPages > 0 && (
-          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 bg-gray-50/60 px-3 py-2.5 sm:px-6 sm:py-3.5">
-            <p className="text-[11px] sm:text-xs text-gray-400 whitespace-nowrap">
-              Page <span className="font-medium text-gray-600">{currentPage}</span> of{" "}
-              <span className="font-medium text-gray-600">{totalPages}</span>
+          <div className={tableStyles.footer}>
+            <p className={tableStyles.footerInfo}>
+              Page{" "}
+              <span className={tableStyles.footerInfoHighlight}>{currentPage}</span>
+              {" "}of{" "}
+              <span className={tableStyles.footerInfoHighlight}>{totalPages}</span>
             </p>
 
-            <nav aria-label="Page navigation" className="overflow-x-auto">
-              <ul className="flex items-center gap-1">
+            <nav aria-label="Page navigation" className={tableStyles.nav}>
+              <ul className={tableStyles.navList}>
                 <li>
                   <button
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    aria-label="Previous page"
-                    className={`flex h-6 w-6 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg text-sm transition-colors ${
-                      currentPage === 1
-                        ? "text-gray-300 cursor-not-allowed"
-                        : "text-gray-500 hover:bg-white hover:shadow-sm hover:text-violet-600"
-                    }`}
+                    className={tableStyles.pageBtnPrevNext}
                   >
-                    <svg width="14" height="14" className="sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none">
-                      <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    ◀
                   </button>
                 </li>
 
-                {pageList.map((page, i) =>
+                {getPageList().map((page, i) =>
                   page === "ellipsis" ? (
-                    <li key={`ellipsis-${i}`} className="px-1 text-gray-400 text-xs sm:text-sm select-none">
-                      …
-                    </li>
+                    <li key={`ellipsis-${i}`} className={tableStyles.navEllipsis}>…</li>
                   ) : (
                     <li key={page}>
                       <button
                         onClick={() => handlePageChange(page)}
-                        aria-current={currentPage === page ? "page" : undefined}
-                        className={`flex h-6 min-w-6 sm:h-8 sm:min-w-8 shrink-0 items-center justify-center rounded-lg px-1.5 sm:px-2.5 text-xs sm:text-sm font-medium transition-all ${
-                          currentPage === page
-                            ? "bg-violet-600 text-white shadow-sm shadow-violet-300"
-                            : "text-gray-500 hover:bg-white hover:shadow-sm hover:text-violet-600"
-                        }`}
+                        className={[
+                          tableStyles.pageBtn,
+                          currentPage === page ? tableStyles.pageBtnActive : "",
+                        ].filter(Boolean).join(" ")}
                       >
                         {page}
                       </button>
@@ -202,22 +256,16 @@ function TablePagination<T>({
                   <button
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    aria-label="Next page"
-                    className={`flex h-6 w-6 sm:h-8 sm:w-8 shrink-0 items-center justify-center rounded-lg text-sm transition-colors ${
-                      currentPage === totalPages
-                        ? "text-gray-300 cursor-not-allowed"
-                        : "text-gray-500 hover:bg-white hover:shadow-sm hover:text-violet-600"
-                    }`}
+                    className={tableStyles.pageBtnPrevNext}
                   >
-                    <svg width="14" height="14" className="sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none">
-                      <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
+                    ▶
                   </button>
                 </li>
               </ul>
             </nav>
           </div>
         )}
+
       </div>
     </div>
   );
