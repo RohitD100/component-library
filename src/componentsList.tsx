@@ -373,6 +373,7 @@ export const components = [
             keyExtractor={(row) => row.id}
             variant="default"
             size="md"
+            theme="light"
           />
           <Table
             columns={columns}
@@ -380,12 +381,14 @@ export const components = [
             keyExtractor={(row) => row.id}
             variant="striped"
             size="sm"
+            theme="dark"
           />
           <Table
             columns={[]}
             data={[]}
             keyExtractor={(row: any) => row.id}
             emptyMessage="No users found."
+            theme="light"
           />
         </div>
       );
