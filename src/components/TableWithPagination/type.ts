@@ -30,5 +30,13 @@ export interface TablePaginationProps<T> {
 
   // Search
   query?: string;
+  //it is for defining the key of the column
   binarySearchKey?: keyof T;
+
+  //for checkbox
+  select ?: boolean;
+
+  //for searchbox to appear or not
+  search ?: boolean;
+  highlight?: boolean;
 }

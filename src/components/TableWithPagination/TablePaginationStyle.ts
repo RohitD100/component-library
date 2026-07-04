@@ -58,4 +58,19 @@ export const tableStyles = {
   pageBtnActive: "bg-violet-600 text-white font-semibold",
   pageBtnPrevNext:
     "px-2 py-1 text-xs rounded disabled:opacity-30 hover:bg-violet-100 transition-colors",
+
+    // Search
+    searchContainer: "px-3 pt-3 sm:px-6 sm:pt-4 pb-1",
+    searchWrapper: "relative flex items-center",
+    searchIcon: "absolute left-3 text-gray-400 pointer-events-none",
+    searchInput:
+      "w-full pl-8 pr-8 py-1.5 text-xs sm:text-sm rounded-lg border border-gray-200 bg-gray-50 text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-transparent transition",
+    searchClear:
+      "absolute right-2.5 text-gray-400 hover:text-gray-600 text-xs transition-colors",
+
+    // Select checkboxes
+    selectTh: "px-3 py-2.5 sm:px-4 sm:py-3.5 bg-gray-50/80 w-8",
+    selectTd: "px-3 py-2.5 sm:px-4 sm:py-3.5 w-8",
+    checkbox:
+      "h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500 cursor-pointer accent-violet-600",
 };

@@ -566,17 +566,56 @@ export const components = [
             columns={columns}
             data={data}
             keyExtractor={(row) => row.count}
-            pageSize={10}
+            pageSize={5}
             emptyState="No user available now."
             binarySearchKey="label"
+            
+            select = {true}
+            search = {true}
+            highlight = {true}
           />
   
+  <TablePagination
+            columns={columns}
+            data={data}
+            keyExtractor={(row) => row.count}
+            pageSize={5}
+            emptyState="No user available now."
+            binarySearchKey="role"
+           
+            select = {false}
+            search = {true}
+            highlight = {true}
+          />
+          <TablePagination
+            columns={columns}
+            data={data}
+            keyExtractor={(row) => row.count}
+            pageSize={5}
+            emptyState="No user available now."
+            binarySearchKey="label"
+            
+            select = {true}
+            search = {false}
+            highlight = {true}
+          />
+          <TablePagination
+            columns={columns}
+            data={data}
+            keyExtractor={(row) => row.count}
+            pageSize={5}
+            emptyState="No user available now."
+            binarySearchKey="label"
+            select = {false}
+            search = {false}
+            highlight = {true}
+          />
           {/* Empty dataset — shows emptyState */}
           <TablePagination
             columns={columns}
             data={data2}
             keyExtractor={(row) => row.count}
-            pageSize={10}
+            pageSize={5}
             emptyState="No user available now."
             binarySearchKey="label"
           />
