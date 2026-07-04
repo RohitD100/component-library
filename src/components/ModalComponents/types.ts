@@ -1,10 +1,12 @@
-import type { ReactNode } from 'react'
+import { ReactNode } from 'react'
 
 // ─── Base Modal ───────────────────────────────────────────────
 export interface BaseModalProps {
   isOpen: boolean
   onClose: () => void
   children?: ReactNode
+  overlayClassName?: string
+  panelClassName?: string
 }
 
 // ─── Confirmation Modal ───────────────────────────────────────
@@ -12,8 +14,13 @@ export interface ConfirmationModalProps {
   isOpen: boolean
   onClose: () => void
   onConfirm: () => void
+  onCancel?: () => void
+  message?: string
+  confirmText?: string
+  cancelText?: string
   itemName?: string
   isLoading?: boolean
+  loadingText?: string
 }
 
 // ─── Error Modal ──────────────────────────────────────────────
@@ -21,15 +28,31 @@ export interface ErrorModalProps {
   isOpen: boolean
   onClose: () => void
   onRetry?: () => void
+  title?: string
+  icon?: string
   errorMessage?: string
+  retryText?: string
+  cancelText?: string
+  loadingText?: string
   isLoading?: boolean
 }
 
 // ─── Information Modal ────────────────────────────────────────
+export interface InformationSection {
+  heading: string
+  content: string
+}
+
 export interface InformationModalProps {
   isOpen: boolean
   onClose: () => void
   onAccept: () => void
+  title?: string
+  icon?: string
+  sections?: InformationSection[]
+  checkboxLabel?: string
+  acceptText?: string
+  cancelText?: string
 }
 
 // ─── Form Modal ───────────────────────────────────────────────
@@ -37,6 +60,14 @@ export interface FormModalProps {
   isOpen: boolean
   onClose: () => void
   onSubmit: (name: string, email: string) => void
+  title?: string
+  nameLabel?: string
+  namePlaceholder?: string
+  emailLabel?: string
+  emailPlaceholder?: string
+  submitText?: string
+  cancelText?: string
+  loadingText?: string
   isLoading?: boolean
 }
 
