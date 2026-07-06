@@ -1,9 +1,5 @@
 import { createContext, useContext } from "react";
-
-interface HighlightContextValue {
-  query: string;
-  highlight: boolean;
-}
+import type { HighlightContextValue } from "./type";
 
 export const HighlightContext = createContext<HighlightContextValue>({
   query: "",

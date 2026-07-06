@@ -1,17 +1,8 @@
 import React from "react";
-import type { Column } from "./type";
+import type { TableRowProps } from "./type";
 import { tableStyles } from "./TablePaginationStyle";
 import { Highlight } from "./Highlight";
 import { useHighlight } from "./HighlightContext";
-
-interface TableRowProps<T> {
-  row: T;
-  columns: Column<T>[];
-  rowKey: string;
-  showSelect?: boolean;
-  selected?: boolean;
-  onSelectChange?: (key: string, checked: boolean) => void;
-}
 
 export function TableRow<T>({
   row,
@@ -40,7 +31,7 @@ export function TableRow<T>({
       {columns.map((col) => (
         <td key={String(col.key)} className={tableStyles.td}>
           {col.render
-            ? col.render(row)  // custom renderers handle their own markup
+            ? col.render(row)
             : highlight
             ? <Highlight text={String(row[col.key] ?? "")} />
             : (row[col.key] as React.ReactNode)

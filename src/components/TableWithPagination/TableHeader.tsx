@@ -1,24 +1,7 @@
 import React from "react";
-import type { Column, SortConfig, SortDirection } from "./type";
+import type { TableHeaderProps, SortDirection } from "./type";
 import { tableStyles } from "./TablePaginationStyle";
-
-function SortIcon({ direction }: { direction: SortDirection }) {
-  if (direction === "asc")
-    return <span className={tableStyles.sortIconAsc} aria-label="Sorted ascending">↑</span>;
-  if (direction === "desc")
-    return <span className={tableStyles.sortIconDesc} aria-label="Sorted descending">↓</span>;
-  return <span className={tableStyles.sortIconNone} aria-label="Sortable">⇅</span>;
-}
-
-interface TableHeaderProps<T> {
-  columns: Column<T>[];
-  sortConfig: SortConfig<T>;
-  onSort: (key: keyof T) => void;
-  showSelect?: boolean;
-  allSelected?: boolean;
-  someSelected?: boolean;
-  onSelectAll?: (checked: boolean) => void;
-}
+import { SortIcon } from "./Icons";
 
 export function TableHeader<T>({
   columns,

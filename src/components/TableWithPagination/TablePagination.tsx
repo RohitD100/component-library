@@ -1,43 +1,15 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import type { Column, SortConfig, TablePaginationProps } from "./type";
 import { tableStyles } from "./TablePaginationStyle";
+import { substringSearch, mergeSort } from "./helper";
+import { HighlightContext } from "./HighlightContext";
 import { Search } from "./Search";
 import { TableHeader } from "./TableHeader";
 import { TableRow } from "./TableRow";
 import { Pagination } from "./Pagination";
-import { HighlightContext } from "./HighlightContext";
 
 export type { Column };
 
-// ── Binary search (prefix-match) ───────────────────────────────────────────────
-function substringSearch<T>(arr: T[], key: keyof T, target: string): T[] {
-  const lower = target.toLowerCase();
-  return arr.filter((item) =>
-    (item[key]?.toString().toLowerCase() ?? "").includes(lower)
-  );
-}
-
-// ── Merge sort ─────────────────────────────────────────────────────────────────
-function mergeSort<T>(arr: T[], key: keyof T, direction: "asc" | "desc"): T[] {
-  if (arr.length <= 1) return arr;
-  const mid = Math.floor(arr.length / 2);
-  const left = mergeSort(arr.slice(0, mid), key, direction);
-  const right = mergeSort(arr.slice(mid), key, direction);
-  return merge(left, right, key, direction);
-}
-
-function merge<T>(left: T[], right: T[], key: keyof T, direction: "asc" | "desc"): T[] {
-  const result: T[] = [];
-  let i = 0, j = 0;
-  while (i < left.length && j < right.length) {
-    const a = left[i][key]?.toString().toLowerCase() ?? "";
-    const b = right[j][key]?.toString().toLowerCase() ?? "";
-    (direction === "asc" ? a <= b : a >= b) ? result.push(left[i++]) : result.push(right[j++]);
-  }
-  return [...result, ...left.slice(i), ...right.slice(j)];
-}
-
-// ── Main component ─────────────────────────────────────────────────────────────
 function TablePagination<T>({
   columns,
   data,
@@ -58,14 +30,13 @@ function TablePagination<T>({
   const [canScrollRight, setCanScrollRight] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Use external query if provided, otherwise use internal search state
   const activeQuery = externalQuery !== undefined ? externalQuery : internalQuery;
 
   // 1️⃣ Search
   const searchedData =
-  activeQuery && binarySearchKey
-    ? substringSearch(data, binarySearchKey, activeQuery)  // ← no pre-sort needed anymore
-    : data;
+    activeQuery && binarySearchKey
+      ? substringSearch(data, binarySearchKey, activeQuery)
+      : data;
 
   // 2️⃣ Sort
   const sortedData =
@@ -91,18 +62,15 @@ function TablePagination<T>({
     setCurrentPage(1);
   };
 
-  // Select logic
-  const currentPageKeys = paginatedData.map((row) => keyExtractor(row));
-  const allSelected = currentPageKeys.length > 0 && currentPageKeys.every((k) => selectedKeys.has(k));
-  const someSelected = currentPageKeys.some((k) => selectedKeys.has(k));
+  // Select
+  const allKeys = sortedData.map((row) => keyExtractor(row));
+  const allSelected = allKeys.length > 0 && allKeys.every((k) => selectedKeys.has(k));
+  const someSelected = allKeys.some((k) => selectedKeys.has(k));
 
   const handleSelectAll = (checked: boolean) => {
-    setSelectedKeys((prev) => {
-      const next = new Set(prev);
-      sortedData.forEach((row) => {
-        const key = keyExtractor(row);
-        checked ? next.add(key) : next.delete(key);
-      });
+    setSelectedKeys(() => {
+      const next = new Set<string>();
+      if (checked) sortedData.forEach((row) => next.add(keyExtractor(row)));
       return next;
     });
   };
@@ -133,11 +101,10 @@ function TablePagination<T>({
   }, [updateScrollState, paginatedData.length, columns.length]);
 
   return (
-    <HighlightContext.Provider value={{ query: internalQuery, highlight }}>
+    <HighlightContext.Provider value={{ query: activeQuery, highlight }}>
       <div className={tableStyles.wrapper}>
         <div className={tableStyles.card}>
-  
-          {/* Search bar — only shown when search prop is true and no external query */}
+
           {search && externalQuery === undefined && (
             <div className={tableStyles.searchContainer}>
               <Search
@@ -147,15 +114,13 @@ function TablePagination<T>({
               />
             </div>
           )}
-  
-          {/* Scrollable table */}
+
           <div className={tableStyles.scrollWrapper}>
             {canScrollLeft && <div className={tableStyles.shadowLeft} />}
             {canScrollRight && <div className={tableStyles.shadowRight} />}
-  
+
             <div ref={scrollRef} onScroll={updateScrollState} className={tableStyles.scrollContainer}>
               <table className={tableStyles.table}>
-  
                 <TableHeader
                   columns={columns}
                   sortConfig={sortConfig}
@@ -165,7 +130,7 @@ function TablePagination<T>({
                   someSelected={someSelected}
                   onSelectAll={handleSelectAll}
                 />
-  
+
                 <tbody className={tableStyles.tbodyDivide}>
                   {paginatedData.length === 0 ? (
                     <tr>
@@ -193,8 +158,7 @@ function TablePagination<T>({
               </table>
             </div>
           </div>
-  
-          {/* Pagination footer */}
+
           {totalPages > 0 && (
             <Pagination
               currentPage={currentPage}
@@ -202,10 +166,10 @@ function TablePagination<T>({
               onPageChange={handlePageChange}
             />
           )}
-  
+
         </div>
       </div>
-    </HighlightContext.Provider>  
+    </HighlightContext.Provider>
   );
 }
 

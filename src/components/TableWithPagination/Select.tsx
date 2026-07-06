@@ -1,20 +1,11 @@
 import React from "react";
+import type { SelectHeaderProps, SelectCellProps } from "./type";
 import { tableStyles } from "./TablePaginationStyle";
-
-// Header checkbox
-interface SelectHeaderProps {
-  checked: boolean;
-  indeterminate?: boolean;
-  onChange: (checked: boolean) => void;
-}
 
 export function SelectHeader({ checked, indeterminate = false, onChange }: SelectHeaderProps) {
   const ref = React.useRef<HTMLInputElement>(null);
-
   React.useEffect(() => {
-    if (ref.current) {
-      ref.current.indeterminate = indeterminate;
-    }
+    if (ref.current) ref.current.indeterminate = indeterminate;
   }, [indeterminate]);
 
   return (
@@ -29,13 +20,6 @@ export function SelectHeader({ checked, indeterminate = false, onChange }: Selec
       />
     </th>
   );
-}
-
-// Row checkbox
-interface SelectCellProps {
-  rowKey: string;
-  checked: boolean;
-  onChange: (key: string, checked: boolean) => void;
 }
 
 export function SelectCell({ rowKey, checked, onChange }: SelectCellProps) {
