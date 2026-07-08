@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import BaseModal from './BaseModal'
-import type { InformationModalProps, InformationSection } from './types'
+import type { InformationModalProps } from './types'
+import { defaultSections } from './helper'
 import {
   modalBody,
   modalHeader,
@@ -14,25 +15,6 @@ import {
   btnCancel,
   btnPrimary,
 } from './modalStyling'
-
-const defaultSections: InformationSection[] = [
-  {
-    heading: '1. Acceptance of Terms',
-    content: 'By accessing or using our service, you agree to be bound by these Terms and Conditions. If you do not agree, please do not use our service.',
-  },
-  {
-    heading: '2. Use of Service',
-    content: 'You agree to use the service only for lawful purposes and in a way that does not infringe the rights of others or restrict their use of the service.',
-  },
-  {
-    heading: '3. Privacy Policy',
-    content: 'Your use of the service is also governed by our Privacy Policy, which is incorporated into these terms by reference.',
-  },
-  {
-    heading: '4. Changes to Terms',
-    content: 'We reserve the right to modify these terms at any time. Continued use of the service after changes constitutes acceptance of the new terms.',
-  },
-]
 
 export default function InformationModal({
   isOpen,
@@ -61,14 +43,11 @@ export default function InformationModal({
   return (
     <BaseModal isOpen={isOpen} onClose={handleClose}>
       <div className={modalBody}>
-
-        {/* Header */}
         <div className={modalHeader}>
           <div className={modalIcon}>{icon}</div>
           <h2 className={modalTitle}>{title}</h2>
         </div>
 
-        {/* Scrollable content */}
         <div className={modalScrollContent}>
           {sections.map((section, index) => (
             <div key={index}>
@@ -78,7 +57,6 @@ export default function InformationModal({
           ))}
         </div>
 
-        {/* Checkbox */}
         <label className={modalCheckboxLabel}>
           <input
             type="checkbox"
@@ -89,7 +67,6 @@ export default function InformationModal({
           {checkboxLabel}
         </label>
 
-        {/* Footer */}
         <div className={modalFooter}>
           <button onClick={handleClose} className={btnCancel}>
             {cancelText}
@@ -98,7 +75,6 @@ export default function InformationModal({
             {acceptText}
           </button>
         </div>
-
       </div>
     </BaseModal>
   )
