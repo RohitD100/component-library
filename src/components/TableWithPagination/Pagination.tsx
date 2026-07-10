@@ -6,15 +6,17 @@ import { tableStyles } from "./TablePaginationStyle";
 export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
   return (
     <div className={tableStyles.footer}>
+      {/* Page info */}
       <p className={tableStyles.footerInfo}>
-        Page{" "}
-        <span className={tableStyles.footerInfoHighlight}>{currentPage}</span>
+        Page <span className={tableStyles.footerInfoHighlight}>{currentPage}</span>
         {" "}of{" "}
         <span className={tableStyles.footerInfoHighlight}>{totalPages}</span>
       </p>
 
+      {/* Navigation */}
       <nav aria-label="Page navigation" className={tableStyles.nav}>
         <ul className={tableStyles.navList}>
+          {/* Previous */}
           <li>
             <button
               onClick={() => onPageChange(currentPage - 1)}
@@ -25,11 +27,12 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
             </button>
           </li>
 
-          {getPageList(currentPage, totalPages).map((page, i) =>
-            page === "ellipsis" ? (
-              <li key={`ellipsis-${i}`} className={tableStyles.navEllipsis}>…</li>
-            ) : (
-              <li key={page}>
+          {/* Page numbers */}
+          {getPageList(currentPage, totalPages).map((page, i) => (
+            <li key={page === "ellipsis" ? `ellipsis-${i}` : page}>
+              {page === "ellipsis" ? (
+                <span className={tableStyles.navEllipsis}>…</span>
+              ) : (
                 <button
                   onClick={() => onPageChange(page)}
                   className={[
@@ -39,10 +42,11 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
                 >
                   {page}
                 </button>
-              </li>
-            )
-          )}
+              )}
+            </li>
+          ))}
 
+          {/* Next */}
           <li>
             <button
               onClick={() => onPageChange(currentPage + 1)}

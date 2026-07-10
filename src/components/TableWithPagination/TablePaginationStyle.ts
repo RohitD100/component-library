@@ -27,10 +27,7 @@ export const tableStyles = {
   thSortActive: "text-violet-600 bg-violet-50/60",
   thInner: "inline-flex items-center",
 
-  // Sort icons
-  sortIconAsc: "ml-1 inline-block text-violet-500",
-  sortIconDesc: "ml-1 inline-block text-violet-500",
-  sortIconNone: "ml-1 inline-block text-gray-300 group-hover:text-gray-400",
+  
 
   // tbody
   tbodyDivide: "divide-y divide-gray-100",
@@ -68,9 +65,7 @@ export const tableStyles = {
     searchClear:
       "absolute right-2.5 text-gray-400 hover:text-gray-600 text-xs transition-colors",
 
-    // Select checkboxes
-    selectTh: "px-3 py-2.5 sm:px-4 sm:py-3.5 bg-gray-50/80 w-8",
-    selectTd: "px-3 py-2.5 sm:px-4 sm:py-3.5 w-8",
-    checkbox:
-      "h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500 cursor-pointer accent-violet-600",
+      bulkActionsBar: "flex items-center justify-between gap-3 px-3 py-2 sm:px-6 bg-violet-50/60 border-b border-violet-100",
+      bulkActionsCount: "text-xs sm:text-sm font-medium text-violet-700",
+      bulkActionsButtons: "flex items-center gap-2",
 };

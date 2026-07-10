@@ -1,27 +1,40 @@
 import React from "react";
 import type { HighlightProps } from "./type";
-import { useHighlight } from "./HighlightContext";
 
-export function Highlight({ text }: HighlightProps) {
-  const { query, highlight } = useHighlight();
+export function Highlight({ text, query }: HighlightProps) {
+  // If there's no search text, just show the original text
+  if (!query.trim()) {
+    return <>{text}</>;
+  }
 
-  if (!highlight || !query.trim()) return <>{text}</>;
+  // Escape special regex characters in the query
+  const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const regex = new RegExp(`(${escaped})`, "gi");
+  // Build a case-insensitive regex to find matches
+  const regex = new RegExp(`(${safeQuery})`, "gi");
+
+  // Split the text into matching and non-matching parts
   const parts = text.split(regex);
 
+  // Render each part: highlight matches, show others normally
   return (
     <>
-      {parts.map((part, i) =>
-        part.toLowerCase() === query.toLowerCase() ? (
-          <mark key={i} className="bg-violet-200 text-violet-900 rounded-sm px-0.5 font-medium not-italic">
-            {part}
-          </mark>
-        ) : (
-          <span key={i}>{part}</span>
-        )
-      )}
+      {parts.map((part, i) => {
+        const isMatch = part.toLowerCase() === query.toLowerCase();
+
+        if (isMatch) {
+          return (
+            <mark
+              key={i}
+              className="bg-violet-200 text-violet-900 rounded-sm px-0.5 font-medium not-italic"
+            >
+              {part}
+            </mark>
+          );
+        }
+
+        return <span key={i}>{part}</span>;
+      })}
     </>
   );
 }

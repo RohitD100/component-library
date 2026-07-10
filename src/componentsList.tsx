@@ -18,6 +18,8 @@ import Select from "./components/Select/Select";
 import TablePagination , {type Column} from "./components/TableWithPagination/TablePagination"
 
 import Icon from "./components/Icon/Icon";
+import { createDeleteAction } from "./components/TableWithPagination/Delete";
+import { createEditAction } from "./components/TableWithPagination/Edit";
 
 const frameworkOptions = [
   { label: "React", value: "react" },
@@ -560,33 +562,40 @@ export const components = [
       ];
   
       return (
-        <div>
-          {/* Full dataset — binary search on "label", all columns sortable */}
-          <TablePagination
+        <>
+        <TablePagination
             columns={columns}
             data={data}
             keyExtractor={(row) => row.count}
             pageSize={5}
             emptyState="No user available now."
             binarySearchKey="label"
-            
-            select = {true}
-            search = {true}
-            highlight = {true}
+            select={true}
+            search={true}
+            highlight={true}
+            enableBulkActions={true}
+            bulkActions={[
+              createEditAction<Row>((rows) => {
+                console.log("Edit clicked for:", rows);
+              }),
+              createDeleteAction<Row>((keys) => {
+                console.log("Delete clicked for keys:", keys);
+              }),
+            ]}
           />
-  
-  <TablePagination
+
+          <TablePagination
             columns={columns}
             data={data}
             keyExtractor={(row) => row.count}
             pageSize={5}
             emptyState="No user available now."
             binarySearchKey="role"
-           
-            select = {false}
-            search = {true}
-            highlight = {true}
+            select={false}
+            search={true}
+            highlight={true}
           />
+
           <TablePagination
             columns={columns}
             data={data}
@@ -594,11 +603,11 @@ export const components = [
             pageSize={5}
             emptyState="No user available now."
             binarySearchKey="label"
-            
-            select = {true}
-            search = {false}
-            highlight = {true}
+            select={true}
+            search={false}
+            highlight={true}
           />
+
           <TablePagination
             columns={columns}
             data={data}
@@ -606,10 +615,11 @@ export const components = [
             pageSize={5}
             emptyState="No user available now."
             binarySearchKey="label"
-            select = {false}
-            search = {false}
-            highlight = {true}
+            select={false}
+            search={false}
+            highlight={true}
           />
+
           {/* Empty dataset — shows emptyState */}
           <TablePagination
             columns={columns}
@@ -619,8 +629,9 @@ export const components = [
             emptyState="No user available now."
             binarySearchKey="label"
           />
-        </div>
-      );
+        </>
+      
+    );
     },
   }
 ]
