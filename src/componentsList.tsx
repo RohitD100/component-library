@@ -18,6 +18,7 @@ import Select from "./components/Select/Select";
 import TablePagination , {type Column} from "./components/TableWithPagination/TablePagination"
 
 import Icon from "./components/Icon/Icon";
+import Link from "./components/Link/Link";
 import { createDeleteAction } from "./components/TableWithPagination/Delete";
 import { createEditAction } from "./components/TableWithPagination/Edit";
 
@@ -489,7 +490,57 @@ export const components = [
     ),
   },
   {
-    name: "TableWithPagination",
+    name: "Link",
+    render: () => (
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-wrap gap-6 items-center">
+          <Link href="/dashboard" variant="default">
+            Default link
+          </Link>
+          <Link href="/dashboard" variant="primary">
+            Primary link
+          </Link>
+          <Link href="/dashboard" variant="secondary">
+            Secondary link
+          </Link>
+          <Link href="/dashboard" variant="underlined">
+            Underlined link
+          </Link>
+        </div>
+
+        <p className="text-sm text-gray-700">
+          This paragraph has an{" "}
+          <Link href="/privacy" variant="inline">
+            inline link
+          </Link>{" "}
+          styled to sit naturally inside body text.
+        </p>
+
+        <div className="flex flex-wrap gap-6 items-center">
+          <Link href="https://example.com">External link</Link>
+          <Link
+            href="/back"
+            icon={<Icon icon="reload" size="sm" />}
+            iconPlacement="leading"
+          >
+            Leading icon
+          </Link>
+          <Link
+            href="/settings"
+            icon={<Icon icon="house" size="sm" />}
+            iconPlacement="trailing"
+          >
+            Trailing icon
+          </Link>
+          <Link href="/upgrade" disabled>
+            Disabled link
+          </Link>
+        </div>
+      </div>
+    ),
+  },
+  {
+  name: "TableWithPagination",
     render: () => {
       type Row = {
         label: string;
@@ -630,9 +681,9 @@ export const components = [
             binarySearchKey="label"
           />
         </>
-      
+    
     );
-    },
   }
-]
-
+},
+  
+];
