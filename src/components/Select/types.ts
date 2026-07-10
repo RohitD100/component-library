@@ -2,8 +2,6 @@ import type { ReactNode } from "react";
 
 export type ValidationState = "default" | "error" | "success";
 
-export type Theme = "light" | "dark";
-
 export interface SelectOption {
   label: string;
   value: string;
@@ -19,23 +17,33 @@ export interface SelectOptionGroup {
 export type SelectData = SelectOption[] | SelectOptionGroup[];
 
 export interface SelectProps {
-  // Data
+  /** Flat list of options, or groups of options */
   options: SelectData;
 
-  // Selected value
+  /** Selected value(s) — string for single select, string[] for multiSelect */
   value?: string | string[];
 
-  // Callback
+  /** Fires with the new value whenever selection changes */
   onChange: (value: string | string[]) => void;
 
-  // Features
+  /** Behavior */
   multiSelect?: boolean;
   clearable?: boolean;
   disabled?: boolean;
 
-  // UI
+  /** Content */
   placeholder?: string;
+  label?: string;
+  helperText?: string;
+
+  /** Validation */
   validationState?: ValidationState;
-  theme?: Theme;
+
+  /** Multi-select tag display */
+  maxVisibleTags?: number;
+
+  /** DOM */
+  id?: string;
+  name?: string;
   className?: string;
 }
