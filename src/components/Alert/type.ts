@@ -5,6 +5,8 @@ export type AlertVariant =
     | "error"
     | "warning"
     | "info"
+    | "yaracirclesuccess"
+    | "yaracirclefail"
 
 export type AlertProps = {
     message: string;
