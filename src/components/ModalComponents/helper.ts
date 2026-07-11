@@ -1,4 +1,4 @@
-// src/components/ModalComponents/helper.ts
+
 import type { InformationSection } from './types'
 
 export const defaultSections: InformationSection[] = [

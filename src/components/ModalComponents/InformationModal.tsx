@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import BaseModal from './BaseModal'
+import { Checkbox } from "../Checkbox/Checkbox" 
 import type { InformationModalProps } from './types'
 import { defaultSections } from './helper'
 import {
@@ -10,7 +11,6 @@ import {
   modalScrollContent,
   sectionHeading,
   modalCheckboxLabel,
-  modalCheckboxInput,
   modalFooter,
   btnCancel,
   btnPrimary,
@@ -57,15 +57,12 @@ export default function InformationModal({
           ))}
         </div>
 
-        <label className={modalCheckboxLabel}>
-          <input
-            type="checkbox"
-            checked={checked}
-            onChange={(e) => setChecked(e.target.checked)}
-            className={modalCheckboxInput}
-          />
-          {checkboxLabel}
-        </label>
+        <Checkbox
+          checked={checked}
+          onChange={(e) => setChecked(e.target.checked)}
+          label={checkboxLabel}
+          className={modalCheckboxLabel}
+        />
 
         <div className={modalFooter}>
           <button onClick={handleClose} className={btnCancel}>
