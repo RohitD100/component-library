@@ -56,7 +56,11 @@ const Select = ({
   };
 
   const handleClear = () => {
-    multiSelect ? onChange([]) : onChange("");
+    if (multiSelect) {
+      onChange([]);
+    } else {
+      onChange("");
+    }
   };
 
   return (
