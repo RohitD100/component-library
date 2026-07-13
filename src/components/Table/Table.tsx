@@ -21,7 +21,7 @@ import {
   trHoverDarkStyle,
 } from "./tableStyle";
 
-function Table<T>({
+function Table<T extends Record<string, unknown>>({
   columns,
   data,
   keyExtractor,
@@ -45,9 +45,7 @@ function Table<T>({
             {columns.map((col) => (
               <th
                 key={col.key}
-                className={`${
-                  isDark ? thDarkStyle : thBaseStyle
-                } ${sizeStyles[size]}`}
+                className={`${isDark ? thDarkStyle : thBaseStyle} ${sizeStyles[size]}`}
                 style={col.width ? { width: col.width } : {}}
               >
                 {col.header}
@@ -77,13 +75,11 @@ function Table<T>({
                 {columns.map((col) => (
                   <td
                     key={col.key}
-                    className={`${
-                      isDark ? tdDarkStyle : tdBaseStyle
-                    } ${sizeStyles[size]}`}
+                    className={`${isDark ? tdDarkStyle : tdBaseStyle} ${sizeStyles[size]}`}
                   >
                     {col.render
                       ? col.render(row)
-                      : String((row as any)[col.key] ?? "")}
+                      : String(row[col.key as keyof T] ?? "")}
                   </td>
                 ))}
               </tr>

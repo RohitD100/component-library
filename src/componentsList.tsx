@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useState } from "react";
 import Button from "./components/Button/Button";
 import { CircularLoader } from "./components/CircularLoader/CircularLoader";
@@ -25,6 +26,195 @@ const frameworkOptions = [
   { label: "Angular", value: "angular" },
   { label: "SolidJS", value: "solidjs" },
 ];
+
+type TableRow = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  status: string;
+};
+
+function ComboBoxDemo() {
+  const [selected, setSelected] = useState<string | undefined>(undefined);
+
+  return (
+    <ComboBox
+      options={frameworkOptions}
+      value={selected}
+      onChange={setSelected}
+      placeholder="Select a framework..."
+    />
+  );
+}
+
+function DatePickerDemo() {
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [dateMMDD, setDateMMDD] = useState<Date | undefined>(undefined);
+  const [dateISO, setDateISO] = useState<Date | undefined>(undefined);
+
+  return (
+    <div className="flex flex-col gap-4 max-w-xs">
+      <DatePicker
+        value={date}
+        onChange={setDate}
+        format="DD/MM/YYYY"
+        placeholder="DD/MM/YYYY"
+      />
+
+      <DatePicker
+        value={dateMMDD}
+        onChange={setDateMMDD}
+        format="MM/DD/YYYY"
+        placeholder="MM/DD/YYYY"
+      />
+
+      <DatePicker
+        value={dateISO}
+        onChange={setDateISO}
+        format="YYYY-MM-DD"
+        placeholder="YYYY-MM-DD"
+      />
+
+      <DatePicker
+        value={date}
+        onChange={setDate}
+        placeholder="With min/max"
+        minDate={new Date()}
+      />
+
+      <DatePicker placeholder="Disabled" disabled />
+    </div>
+  );
+}
+
+function TableDemo() {
+  const columns = [
+    { key: "name", header: "Name" },
+    { key: "email", header: "Email" },
+    { key: "role", header: "Role" },
+    {
+      key: "status",
+      header: "Status",
+      render: (row: TableRow) => (
+        <span
+          className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+            row.status === "Active"
+              ? "bg-green-100 text-green-700"
+              : "bg-red-100 text-red-600"
+          }`}
+        >
+          {row.status}
+        </span>
+      ),
+    },
+  ];
+
+  const data: TableRow[] = [
+    {
+      id: "1",
+      name: "Aditya Sharma",
+      email: "aditya@example.com",
+      role: "Admin",
+      status: "Active",
+    },
+    {
+      id: "2",
+      name: "John Doe",
+      email: "john@example.com",
+      role: "Developer",
+      status: "Inactive",
+    },
+    {
+      id: "3",
+      name: "Jane Smith",
+      email: "jane@example.com",
+      role: "Designer",
+      status: "Active",
+    },
+  ];
+
+  return (
+    <div className="flex flex-col gap-6">
+      <Table
+        columns={columns}
+        data={data}
+        keyExtractor={(row) => row.id}
+        variant="default"
+        size="md"
+        theme="light"
+      />
+
+      <Table
+        columns={columns}
+        data={data}
+        keyExtractor={(row) => row.id}
+        variant="striped"
+        size="sm"
+        theme="dark"
+      />
+
+      <Table
+        columns={[]}
+        data={[]}
+        keyExtractor={(row: TableRow) => row.id}
+        emptyMessage="No users found."
+        theme="light"
+      />
+    </div>
+  );
+}
+
+function SelectDemo() {
+  const [selected, setSelected] = useState<string[]>(["india", "usa"]);
+
+  return (
+    <Select
+      options={[
+        { label: "India", value: "india" },
+        { label: "USA", value: "usa" },
+        { label: "UK", value: "uk" },
+        { label: "Canada", value: "canada" },
+      ]}
+      value={selected}
+      onChange={(value) => setSelected(value as string[])}
+      placeholder="Select Countries"
+      multiSelect
+      clearable
+    />
+  );
+}
+
+function CheckboxDemo() {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <div className="flex flex-col gap-3">
+      <Checkbox label="Unchecked" checked={false} onChange={() => {}} />
+
+      <Checkbox label="Checked" checked onChange={() => {}} />
+
+      <Checkbox label="Disabled" disabled />
+
+      <Checkbox label="Disabled checked" checked disabled />
+
+      <Checkbox
+        label="With description"
+        description="This is a helper text below the label."
+        checked={checked}
+        onChange={(e) => setChecked(e.target.checked)}
+      />
+
+      <Checkbox label="With error" error="This field is required." />
+
+      <div className="flex gap-4 items-center">
+        <Checkbox label="Small" size="sm" defaultChecked />
+        <Checkbox label="Medium" size="md" defaultChecked />
+        <Checkbox label="Large" size="lg" defaultChecked />
+      </div>
+    </div>
+  );
+}
 
 export const components = [
   {
@@ -268,202 +458,25 @@ export const components = [
   },
   {
     name: "ComboBox",
-    render: () => {
-      const [selected, setSelected] = useState<string | undefined>(undefined);
-      return (
-        <ComboBox
-          options={frameworkOptions}
-          value={selected}
-          onChange={setSelected}
-          placeholder="Select a framework..."
-        />
-      );
-    },
+    render: () => <ComboBoxDemo />,
   },
   {
     name: "DatePicker",
-    render: () => {
-      const [date, setDate] = useState<Date | undefined>(undefined);
-      const [dateMMDD, setDateMMDD] = useState<Date | undefined>(undefined);
-      const [dateISO, setDateISO] = useState<Date | undefined>(undefined);
-
-      return (
-        <div className="flex flex-col gap-4 max-w-xs">
-          <DatePicker
-            value={date}
-            onChange={setDate}
-            format="DD/MM/YYYY"
-            placeholder="DD/MM/YYYY"
-          />
-          <DatePicker
-            value={dateMMDD}
-            onChange={setDateMMDD}
-            format="MM/DD/YYYY"
-            placeholder="MM/DD/YYYY"
-          />
-          <DatePicker
-            value={dateISO}
-            onChange={setDateISO}
-            format="YYYY-MM-DD"
-            placeholder="YYYY-MM-DD"
-          />
-          <DatePicker
-            value={date}
-            onChange={setDate}
-            placeholder="With min/max"
-            minDate={new Date()}
-          />
-          <DatePicker placeholder="Disabled" disabled />
-        </div>
-      );
-    },
+    render: () => <DatePickerDemo />,
   },
   {
     name: "Table",
-    render: () => {
-      const columns = [
-        { key: "name", header: "Name" },
-        { key: "email", header: "Email" },
-        { key: "role", header: "Role" },
-        {
-          key: "status",
-          header: "Status",
-          render: (row: any) => (
-            <span
-              className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                row.status === "Active"
-                  ? "bg-green-100 text-green-700"
-                  : "bg-red-100 text-red-600"
-              }`}
-            >
-              {row.status}
-            </span>
-          ),
-        },
-      ];
-
-      const data = [
-        {
-          id: "1",
-          name: "Aditya Sharma",
-          email: "aditya@example.com",
-          role: "Admin",
-          status: "Active",
-        },
-        {
-          id: "2",
-          name: "John Doe",
-          email: "john@example.com",
-          role: "Developer",
-          status: "Inactive",
-        },
-        {
-          id: "3",
-          name: "Jane Smith",
-          email: "jane@example.com",
-          role: "Designer",
-          status: "Active",
-        },
-      ];
-
-      return (
-        <div className="flex flex-col gap-6">
-          <Table
-            columns={columns}
-            data={data}
-            keyExtractor={(row) => row.id}
-            variant="default"
-            size="md"
-            theme="light"
-          />
-          <Table
-            columns={columns}
-            data={data}
-            keyExtractor={(row) => row.id}
-            variant="striped"
-            size="sm"
-            theme="dark"
-          />
-          <Table
-            columns={[]}
-            data={[]}
-            keyExtractor={(row: any) => row.id}
-            emptyMessage="No users found."
-            theme="light"
-          />
-        </div>
-      );
-    },
+    render: () => <TableDemo />,
   },
-
   {
     name: "Select",
-    render: () => {
-      const [selected, setSelected] = useState<string[]>(["india", "usa"]);
-
-      return (
-        <Select
-          options={[
-            { label: "India", value: "india" },
-            { label: "USA", value: "usa" },
-            { label: "UK", value: "uk" },
-            { label: "Canada", value: "canada" },
-          ]}
-          value={selected}
-          onChange={(value) => setSelected(value as string[])}
-          placeholder="Select Countries"
-          multiSelect
-          clearable
-        />
-      );
-    },
+    render: () => <SelectDemo />,
   },
-  
-    {
+  {
     name: "Checkbox",
-    render: () => {
-        const [checked, setChecked] = useState(false);
-        return (
-            <div className="flex flex-col gap-3">
-                <Checkbox
-                    label="Unchecked"
-                    checked={false}
-                    onChange={() => {}}
-                />
-                <Checkbox
-                    label="Checked"
-                    checked={true}
-                    onChange={() => {}}
-                />
-                <Checkbox
-                    label="Disabled"
-                    disabled
-                />
-                <Checkbox
-                    label="Disabled checked"
-                    checked
-                    disabled
-                />
-                <Checkbox
-                    label="With description"
-                    description="This is a helper text below the label."
-                    checked={checked}
-                    onChange={(e) => setChecked(e.target.checked)}
-                />
-                <Checkbox
-                    label="With error"
-                    error="This field is required."
-                />
-                <div className="flex gap-4 items-center">
-                    <Checkbox label="Small"  size="sm" defaultChecked />
-                    <Checkbox label="Medium" size="md" defaultChecked />
-                    <Checkbox label="Large"  size="lg" defaultChecked />
-                </div>
-            </div>
-        );
-    },
-    },
-    {
+    render: () => <CheckboxDemo />,
+  },
+  {
     name: "Icon",
     render: () => (
       <div className="flex flex-wrap gap-6 items-center">
