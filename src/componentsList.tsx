@@ -19,8 +19,7 @@ import TablePagination , {type Column} from "./components/TableWithPagination/Ta
 
 import Icon from "./components/Icon/Icon";
 import Link from "./components/Link/Link";
-import { createDeleteAction } from "./components/TableWithPagination/Delete";
-import { createEditAction } from "./components/TableWithPagination/Edit";
+
 
 const frameworkOptions = [
   { label: "React", value: "react" },
@@ -625,14 +624,8 @@ export const components = [
             search={true}
             highlight={true}
             enableBulkActions={true}
-            bulkActions={[
-              createEditAction<Row>((rows) => {
-                console.log("Edit clicked for:", rows);
-              }),
-              createDeleteAction<Row>((keys) => {
-                console.log("Delete clicked for keys:", keys);
-              }),
-            ]}
+            sortKey="label"
+            sortDirection="asc" 
           />
 
           <TablePagination
@@ -645,6 +638,8 @@ export const components = [
             select={false}
             search={true}
             highlight={true}
+            sortKey="label"
+            sortDirection="desc" 
           />
 
           <TablePagination

@@ -1,5 +1,8 @@
+import React from "react";
+
 export const Icons = {
   draw: () => (
+    
     <svg
       className="h-full w-full"
       viewBox="0 0 24 24"

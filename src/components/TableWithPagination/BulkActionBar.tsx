@@ -1,13 +1,7 @@
 import React from "react";
 import Button from "../Button/Button";
-import type { BulkActionConfig } from "./type";
+import type { BulkActionConfig, BulkActionsBarProps } from "./type";
 import { tableStyles } from "./TablePaginationStyle";
-
-interface BulkActionsBarProps<T> {
-  selectedRows: T[];
-  selectedKeys: string[];
-  actions: BulkActionConfig<T>[];
-}
 
 export function BulkActionsBar<T>({
   selectedRows,

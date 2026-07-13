@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import type { Column, SortConfig, TablePaginationProps } from "./type";
+import type { Column, TablePaginationProps } from "./type";
 import { tableStyles } from "./TablePaginationStyle";
 import { substringSearch, mergeSort } from "./helper";
 import { Search } from "./Search";
@@ -22,10 +22,11 @@ function TablePagination<T>({
   highlight = false,
   enableBulkActions = false,
   bulkActions = [],
-  keyExtractor, // ✅ added explicitly so it's clear
+  keyExtractor,
+  sortKey,
+  sortDirection = "none",
 }: TablePaginationProps<T>) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortConfig, setSortConfig] = useState<SortConfig<T>>({ key: null, direction: "none" });
   const [internalQuery, setInternalQuery] = useState("");
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set());
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -37,9 +38,9 @@ function TablePagination<T>({
     ? substringSearch(data, binarySearchKey, activeQuery)
     : data;
 
-  // ↕️ Sort
-  const sortedData = sortConfig.key && sortConfig.direction !== "none"
-    ? mergeSort([...searchedData], sortConfig.key, sortConfig.direction)
+  // ↕️ Sort (fully controlled via sortKey / sortDirection props)
+  const sortedData = sortKey && sortDirection !== "none"
+    ? mergeSort([...searchedData], sortKey, sortDirection)
     : searchedData;
 
   // ✅ Selected rows
@@ -53,16 +54,6 @@ function TablePagination<T>({
   useEffect(() => {
     if (currentPage > totalPages) setCurrentPage(totalPages || 1);
   }, [totalPages, currentPage]);
-
-  // Sorting handler
-  const handleSort = (key: keyof T) => {
-    setSortConfig((prev) => {
-      if (prev.key !== key) return { key, direction: "asc" };
-      if (prev.direction === "asc") return { key, direction: "desc" };
-      return { key: null, direction: "none" };
-    });
-    setCurrentPage(1);
-  };
 
   // Selection handlers
   const allKeys = sortedData.map((row) => keyExtractor(row));
@@ -112,8 +103,6 @@ function TablePagination<T>({
           <table className={tableStyles.table}>
             <TableHeader
               columns={columns}
-              sortConfig={sortConfig}
-              onSort={handleSort}
               showSelect={select}
               allSelected={allSelected}
               someSelected={someSelected}

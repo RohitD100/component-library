@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 // ── Sorting ─────────────────────────────────────────────
 // Direction of sorting: ascending, descending, or none
-export type SortDirection = "asc" | "desc" | "none";
+export type sortDirection = "asc" | "desc" | "none";
 
 // A column in the table
 export type Column<T> = {
@@ -15,7 +15,7 @@ export type Column<T> = {
 // Current sorting state
 export type SortConfig<T> = {
   key: keyof T | null;           // which column is sorted
-  direction: SortDirection;      // asc / desc / none
+  direction: sortDirection;      // asc / desc / none
 };
 
 // ── Table with Pagination ───────────────────────────────
@@ -33,6 +33,10 @@ export interface TablePaginationProps<T> {
   highlight?: boolean;           // highlight search matches
   enableBulkActions?: boolean;   // show bulk action buttons
   bulkActions?: BulkActionConfig<T>[]; // list of bulk actions
+
+  // ── Sorting (now controlled externally via props) ──────
+  sortKey?: keyof T;              // which field to sort by
+  sortDirection?: sortDirection;  // "asc" | "desc" | "none"
 }
 
 // ── Highlight ───────────────────────────────────────────
@@ -73,8 +77,7 @@ export interface SelectCellProps {
 // ── Table Header ────────────────────────────────────────
 export interface TableHeaderProps<T> {
   columns: Column<T>[];          // list of columns
-  sortConfig: SortConfig<T>;     // current sort state
-  onSort: (key: keyof T) => void;// callback when sorting changes
+  
 
   // Optional selection controls
   showSelect?: boolean;
@@ -100,4 +103,17 @@ export interface BulkActionConfig<T> {
   label: string;                 // button text
   variant?: "primary" | "secondary" | "danger"; // style
   onClick: (selectedRows: T[], selectedKeys: string[]) => void;
+}
+export interface BulkActionsBarProps<T> {
+  selectedRows: T[];
+  selectedKeys: string[];
+  actions: BulkActionConfig<T>[];
+}
+export interface IconProps {
+  icon: IconName;
+  size?: IconSize;
+  color?: string;
+  colorClass?: string;
+  className?: string;
+  label?: string;  // ← add this
 }
