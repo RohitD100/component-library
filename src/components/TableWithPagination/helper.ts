@@ -1,6 +1,6 @@
 import React from "react";
 import type { BulkActionConfig, sortDirection } from "./type";
-import { Icon } from "../Icon/Icon";
+import type { IconName, IconSize } from "../Icon/types";
 
 // ── Substring search ──
 export function substringSearch<T>(arr: T[], key: keyof T, target: string): T[] {

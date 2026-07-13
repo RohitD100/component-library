@@ -109,11 +109,3 @@ export interface BulkActionsBarProps<T> {
   selectedKeys: string[];
   actions: BulkActionConfig<T>[];
 }
-export interface IconProps {
-  icon: IconName;
-  size?: IconSize;
-  color?: string;
-  colorClass?: string;
-  className?: string;
-  label?: string;  // ← add this
-}
