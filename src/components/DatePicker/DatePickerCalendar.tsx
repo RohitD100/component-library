@@ -32,7 +32,7 @@ const DatePickerCalendar = (props: DatePickerCalanderProps) => {
             <DatePickerFooter
                 today={props.today}
                 onChange={props.onChange}
-                setViewYear={props.setViewYear}
+                setViewYear={(val)=>props.setViewYear(()=>val)}
                 setViewMonth={props.setViewMonth}
                 setOpen={props.setOpen}
             />
