@@ -1,4 +1,4 @@
-import React from "react";
+
 import type { PaginationProps } from "./type";
 import { getPageList } from "./helper";
 import {

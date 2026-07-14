@@ -1,11 +1,9 @@
-import React from "react";
+
 import type { SearchProps } from "./type";
 import {
   searchContainerStyle,
   searchWrapperStyle,
-  searchIconStyle,
-  searchInputStyle,
-  searchClearStyle,
+
 } from "./TablePaginationStyle";
 import Input from "../Input/Input";
 import { Icon } from "../Icon/Icon";

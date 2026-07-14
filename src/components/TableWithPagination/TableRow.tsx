@@ -1,4 +1,4 @@
-import React from "react";
+
 import type { TableRowProps } from "./type";
 import {
   trBaseStyle,

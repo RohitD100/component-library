@@ -1,5 +1,5 @@
-import React from "react";
-import type { BulkActionConfig, sortDirection } from "./type";
+
+import type { BulkActionConfig} from "./type";
 
 // ── Substring search ──
 // Search for items where a field contains the target string (case-insensitive)

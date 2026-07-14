@@ -1,4 +1,4 @@
-import React from "react";
+
 import type { HighlightProps } from "./type";
 import { highlightMarkStyle } from "./TablePaginationStyle";
 
