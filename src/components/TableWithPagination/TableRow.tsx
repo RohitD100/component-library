@@ -1,10 +1,14 @@
 import React from "react";
 import type { TableRowProps } from "./type";
-import { tableStyles } from "./TablePaginationStyle";
+import {
+  trBaseStyle,
+  tdBaseStyle,
+  sizeVariantsCell,
+} from "./TablePaginationStyle";
 import { Highlight } from "./Highlight";
 import { SelectCell } from "./SelectUser/SelectUser";
 
-// A single row in the table
+// ── Single Table Row ─────────────────────────────────────
 export function TableRow<T>({
   row,
   columns,
@@ -15,28 +19,28 @@ export function TableRow<T>({
   query = "",
   highlight = false,
 }: TableRowProps<T>) {
-  // Helper: decide how to show a cell value
+  // ── Render cell content based on column config ─────────
   const renderCell = (col: typeof columns[number]) => {
     const value = row[col.key];
 
-    // 1. Custom renderer wins
+    // 1. Custom renderer has highest priority
     if (col.render) return col.render(row);
 
-    // 2. Highlight search matches
+    // 2. Highlight search matches if enabled
     if (highlight) return <Highlight text={String(value ?? "")} query={query} />;
 
-    // 3. Handle empty values
+    // 3. Handle empty/null values
     if (value == null) return "";
 
     // 4. Show strings or numbers directly
     if (typeof value === "string" || typeof value === "number") return value;
 
-    // 5. Fallback: convert to string
+    // 5. Fallback: convert any other type to string
     return String(value);
   };
 
   return (
-    <tr className={tableStyles.tr}>
+    <tr className={trBaseStyle}>
       {/* Optional checkbox for selecting this row */}
       {showSelect && (
         <SelectCell
@@ -48,7 +52,10 @@ export function TableRow<T>({
 
       {/* Render each column cell */}
       {columns.map((col) => (
-        <td key={String(col.key)} className={tableStyles.td}>
+        <td
+          key={String(col.key)}
+          className={`${tdBaseStyle} ${sizeVariantsCell.md}`}
+        >
           {renderCell(col)}
         </td>
       ))}

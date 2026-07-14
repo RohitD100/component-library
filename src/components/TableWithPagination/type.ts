@@ -27,7 +27,7 @@ export interface TablePaginationProps<T> {
   pageSize?: number;             // rows per page
   emptyState?: string;           // message when no data
   query?: string;                // search text
-  binarySearchKey?: keyof T;     // field used for fast search
+  SearchKey?: keyof T;     // field used for fast search
   select?: boolean;              // enable row selection
   search?: boolean;              // enable search bar
   highlight?: boolean;           // highlight search matches
@@ -77,8 +77,6 @@ export interface SelectCellProps {
 // ── Table Header ────────────────────────────────────────
 export interface TableHeaderProps<T> {
   columns: Column<T>[];          // list of columns
-  
-
   // Optional selection controls
   showSelect?: boolean;
   allSelected?: boolean;

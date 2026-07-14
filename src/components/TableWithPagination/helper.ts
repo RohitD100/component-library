@@ -1,8 +1,8 @@
 import React from "react";
 import type { BulkActionConfig, sortDirection } from "./type";
-import type { IconName, IconSize } from "../Icon/types";
 
 // ── Substring search ──
+// Search for items where a field contains the target string (case-insensitive)
 export function substringSearch<T>(arr: T[], key: keyof T, target: string): T[] {
   const search = target.toLowerCase();
   return arr.filter(item =>
@@ -11,6 +11,7 @@ export function substringSearch<T>(arr: T[], key: keyof T, target: string): T[] 
 }
 
 // ── Merge sort ──
+// Sort array in ascending or descending order using merge sort algorithm
 export function mergeSort<T>(arr: T[], key: keyof T, dir: "asc" | "desc"): T[] {
   if (arr.length <= 1) return arr;
   const mid = Math.floor(arr.length / 2);
@@ -19,6 +20,7 @@ export function mergeSort<T>(arr: T[], key: keyof T, dir: "asc" | "desc"): T[] {
   return merge(left, right, key, dir);
 }
 
+// ── Helper: Merge two sorted arrays ──
 function merge<T>(left: T[], right: T[], key: keyof T, dir: "asc" | "desc"): T[] {
   const result: T[] = [];
   let i = 0, j = 0;
@@ -32,6 +34,8 @@ function merge<T>(left: T[], right: T[], key: keyof T, dir: "asc" | "desc"): T[]
 }
 
 // ── Pagination page list ──
+// Generate the list of page numbers to display in pagination
+// Shows: [1, ..., current-1, current, current+1, ..., total]
 export function getPageList(current: number, total: number): (number | "ellipsis")[] {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
   const pages: (number | "ellipsis")[] = [1];
@@ -45,43 +49,12 @@ export function getPageList(current: number, total: number): (number | "ellipsis
 }
 
 // ── Bulk action creators ──
+// Helper to create a common "Edit" bulk action
 export function createEditAction<T>(onEdit: (rows: T[]) => void): BulkActionConfig<T> {
   return { label: "Edit", variant: "primary", onClick: (rows) => onEdit(rows) };
 }
 
+// Helper to create a common "Delete" bulk action
 export function createDeleteAction<T>(onDelete: (keys: string[]) => void): BulkActionConfig<T> {
   return { label: "Delete", variant: "danger", onClick: (_rows, keys) => onDelete(keys) };
-}
-
-// ── Sort indicator ──
-export function SortIndicator({ direction }: { direction: sortDirection }) {
-  switch (direction) {
-    case "asc":
-      return (
-        <Icon
-          icon="arrowUp"
-          size="xs"
-          colorClass="text-current"
-          className="ml-1"
-        />
-      );
-    case "desc":
-      return (
-        <Icon
-          icon="arrowDown"
-          size="xs"
-          colorClass="text-current"
-          className="ml-1"
-        />
-      );
-    default:
-      return (
-        <Icon
-          icon="chevronUpDown"
-          size="xs"
-          colorClass="text-gray-300"
-          className="ml-1"
-        />
-      );
-  }
 }

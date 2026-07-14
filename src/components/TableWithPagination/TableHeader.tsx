@@ -1,8 +1,14 @@
 import React from "react";
 import type { TableHeaderProps } from "./type";
-import { tableStyles } from "./TablePaginationStyle";
+import {
+  theadRowStyle,
+  thBaseStyle,
+  sizeStyles,
+  thInnerStyle,
+} from "./TablePaginationStyle";
 import { SelectHeader } from "./SelectUser/SelectUser";
 
+// ── Table Header Row ─────────────────────────────────────
 export function TableHeader<T>({
   columns,
   showSelect = false,
@@ -12,7 +18,8 @@ export function TableHeader<T>({
 }: TableHeaderProps<T>) {
   return (
     <thead>
-      <tr className={tableStyles.theadRow}>
+      <tr className={theadRowStyle}>
+        {/* Optional checkbox for selecting all rows */}
         {showSelect && (
           <SelectHeader
             checked={allSelected}
@@ -21,12 +28,13 @@ export function TableHeader<T>({
           />
         )}
 
+        {/* Column headers */}
         {columns.map((col) => (
           <th
             key={String(col.key)}
-            className={tableStyles.th}
+            className={`${thBaseStyle} ${sizeStyles.md}`}
           >
-            <span className={tableStyles.thInner}>
+            <span className={thInnerStyle}>
               {col.label}
             </span>
           </th>

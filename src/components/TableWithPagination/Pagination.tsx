@@ -1,44 +1,63 @@
 import React from "react";
 import type { PaginationProps } from "./type";
 import { getPageList } from "./helper";
-import { tableStyles } from "./TablePaginationStyle";
+import {
+  footerStyle,
+  footerInfoStyle,
+  footerInfoHighlightStyle,
+  navStyle,
+  navListStyle,
+  navEllipsisStyle,
+  pageBtnBaseStyle,
+  pageBtnStateVariants,
+  pageBtnPrevNextStyle,
+} from "./TablePaginationStyle";
 
-export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
+// ── Pagination Footer Component ──────────────────────────
+export function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+}: PaginationProps) {
   return (
-    <div className={tableStyles.footer}>
-      {/* Page info */}
-      <p className={tableStyles.footerInfo}>
-        Page <span className={tableStyles.footerInfoHighlight}>{currentPage}</span>
+    <div className={footerStyle}>
+      {/* Page info text */}
+      <p className={footerInfoStyle}>
+        Page <span className={footerInfoHighlightStyle}>{currentPage}</span>
         {" "}of{" "}
-        <span className={tableStyles.footerInfoHighlight}>{totalPages}</span>
+        <span className={footerInfoHighlightStyle}>{totalPages}</span>
       </p>
 
-      {/* Navigation */}
-      <nav aria-label="Page navigation" className={tableStyles.nav}>
-        <ul className={tableStyles.navList}>
-          {/* Previous */}
+      {/* Navigation buttons */}
+      <nav aria-label="Page navigation" className={navStyle}>
+        <ul className={navListStyle}>
+          {/* Previous button */}
           <li>
             <button
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={tableStyles.pageBtnPrevNext}
+              className={pageBtnPrevNextStyle}
+              aria-label="Previous page"
             >
               ◀
             </button>
           </li>
 
-          {/* Page numbers */}
+          {/* Page number buttons */}
           {getPageList(currentPage, totalPages).map((page, i) => (
             <li key={page === "ellipsis" ? `ellipsis-${i}` : page}>
               {page === "ellipsis" ? (
-                <span className={tableStyles.navEllipsis}>…</span>
+                <span className={navEllipsisStyle}>…</span>
               ) : (
                 <button
                   onClick={() => onPageChange(page)}
-                  className={[
-                    tableStyles.pageBtn,
-                    currentPage === page ? tableStyles.pageBtnActive : "",
-                  ].filter(Boolean).join(" ")}
+                  className={`${pageBtnBaseStyle} ${
+                    currentPage === page
+                      ? pageBtnStateVariants.active
+                      : pageBtnStateVariants.default
+                  }`}
+                  aria-label={`Go to page ${page}`}
+                  aria-current={currentPage === page ? "page" : undefined}
                 >
                   {page}
                 </button>
@@ -46,12 +65,13 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
             </li>
           ))}
 
-          {/* Next */}
+          {/* Next button */}
           <li>
             <button
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={tableStyles.pageBtnPrevNext}
+              className={pageBtnPrevNextStyle}
+              aria-label="Next page"
             >
               ▶
             </button>

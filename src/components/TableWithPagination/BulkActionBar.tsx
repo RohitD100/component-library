@@ -1,8 +1,13 @@
 import React from "react";
 import Button from "../Button/Button";
-import type { BulkActionConfig, BulkActionsBarProps } from "./type";
-import { tableStyles } from "./TablePaginationStyle";
+import type { BulkActionsBarProps } from "./type";
+import {
+  bulkActionsBarStyle,
+  bulkActionsCountStyle,
+  bulkActionsButtonsStyle,
+} from "./TablePaginationStyle";
 
+// ── Bulk Actions Bar Component ───────────────────────────
 export function BulkActionsBar<T>({
   selectedRows,
   selectedKeys,
@@ -12,14 +17,14 @@ export function BulkActionsBar<T>({
   if (!selectedKeys.length || !actions.length) return null;
 
   return (
-    <div className={tableStyles.bulkActionsBar}>
+    <div className={bulkActionsBarStyle}>
       {/* Show count of selected rows */}
-      <span className={tableStyles.bulkActionsCount}>
+      <span className={bulkActionsCountStyle}>
         {selectedKeys.length} selected
       </span>
 
       {/* Render action buttons */}
-      <div className={tableStyles.bulkActionsButtons}>
+      <div className={bulkActionsButtonsStyle}>
         {actions.map((action, i) => (
           <Button
             key={i}

@@ -619,7 +619,7 @@ export const components = [
             keyExtractor={(row) => row.count}
             pageSize={5}
             emptyState="No user available now."
-            binarySearchKey="label"
+            SearchKey="label"
             select={true}
             search={true}
             highlight={true}
@@ -634,7 +634,7 @@ export const components = [
             keyExtractor={(row) => row.count}
             pageSize={5}
             emptyState="No user available now."
-            binarySearchKey="role"
+            SearchKey="role"
             select={false}
             search={true}
             highlight={true}
@@ -648,7 +648,7 @@ export const components = [
             keyExtractor={(row) => row.count}
             pageSize={5}
             emptyState="No user available now."
-            binarySearchKey="label"
+            SearchKey="label"
             select={true}
             search={false}
             highlight={true}
@@ -660,7 +660,7 @@ export const components = [
             keyExtractor={(row) => row.count}
             pageSize={5}
             emptyState="No user available now."
-            binarySearchKey="label"
+            SearchKey="label"
             select={false}
             search={false}
             highlight={true}
@@ -673,7 +673,7 @@ export const components = [
             keyExtractor={(row) => row.count}
             pageSize={5}
             emptyState="No user available now."
-            binarySearchKey="label"
+            SearchKey="label"
           />
         </>
     

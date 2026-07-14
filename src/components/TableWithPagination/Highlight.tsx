@@ -1,6 +1,8 @@
 import React from "react";
 import type { HighlightProps } from "./type";
+import { highlightMarkStyle } from "./TablePaginationStyle";
 
+// ── Highlight Search Matches in Text ─────────────────────
 export function Highlight({ text, query }: HighlightProps) {
   // If there's no search text, just show the original text
   if (!query.trim()) {
@@ -24,10 +26,7 @@ export function Highlight({ text, query }: HighlightProps) {
 
         if (isMatch) {
           return (
-            <mark
-              key={i}
-              className="bg-violet-200 text-violet-900 rounded-sm px-0.5 font-medium not-italic"
-            >
+            <mark key={i} className={highlightMarkStyle}>
               {part}
             </mark>
           );
