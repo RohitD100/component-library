@@ -1,9 +1,7 @@
-
 import type { SearchProps } from "./type";
 import {
   searchContainerStyle,
   searchWrapperStyle,
-
 } from "./TablePaginationStyle";
 import Input from "../Input/Input";
 import { Icon } from "../Icon/Icon";
@@ -23,22 +21,21 @@ export function Search({
   const getHighlightClass = () =>
     highlight && query ? "ring-2 ring-violet-400 border-transparent" : "";
 
-  // ── Clear button (only shows when query has text) ────────
-  const ClearButton = () =>
-    query ? (
-      <button
-        type="button"
-        onClick={() => onChange("")}
-        className="pointer-events-auto flex items-center justify-center"
-        aria-label="Clear search"
-      >
-        <Icon
-          icon="close"
-          size="sm"
-          colorClass="text-gray-400 hover:text-gray-600"
-        />
-      </button>
-    ) : undefined;
+  // ── Clear button node (Evaluated directly, not a component) ──
+  const clearButtonNode = query ? (
+    <button
+      type="button"
+      onClick={() => onChange("")}
+      className="pointer-events-auto flex items-center justify-center"
+      aria-label="Clear search"
+    >
+      <Icon
+        icon="close"
+        size="sm"
+        colorClass="text-gray-400 hover:text-gray-600"
+      />
+    </button>
+  ) : undefined;
 
   return (
     <div className={searchContainerStyle}>
@@ -51,7 +48,7 @@ export function Search({
           placeholder={getPlaceholder()}
           className={getHighlightClass()}
           leftIcon={<Icon icon="search" size="sm" colorClass="text-gray-400" />}
-          rightIcon={<ClearButton />}
+          rightIcon={clearButtonNode} 
         />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import type { Column, TablePaginationProps } from "./type";
 import {
   wrapperStyle,
@@ -55,12 +55,10 @@ function TablePagination<T>({
 
   // Pagination - slice data for current page
   const totalPages = Math.ceil(sortedData.length / pageSize);
-  const paginatedData = sortedData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
-
-  // Keep currentPage valid when data changes
-  useEffect(() => {
-    if (currentPage > totalPages) setCurrentPage(totalPages || 1);
-  }, [totalPages, currentPage]);
+  
+ 
+  const validCurrentPage = Math.max(1, Math.min(currentPage, totalPages || 1));
+  const paginatedData = sortedData.slice((validCurrentPage - 1) * pageSize, validCurrentPage * pageSize);
 
   // ── Selection State ─────────────────────────────────────
   // Track which keys are selected (for all data, not just current page)
@@ -77,7 +75,14 @@ function TablePagination<T>({
   const handleSelectRow = (key: string, checked: boolean) => {
     setSelectedKeys((prev) => {
       const next = new Set(prev);
-      checked ? next.add(key) : next.delete(key);
+      
+      
+      if (checked) {
+        next.add(key);
+      } else {
+        next.delete(key);
+      }
+      
       return next;
     });
   };
@@ -149,7 +154,7 @@ function TablePagination<T>({
         {/* 📄 Pagination footer (optional) */}
         {totalPages > 0 && (
           <Pagination
-            currentPage={currentPage}
+            currentPage={validCurrentPage} // Pass derived value here
             totalPages={totalPages}
             onPageChange={(page) => setCurrentPage(page)}
           />
