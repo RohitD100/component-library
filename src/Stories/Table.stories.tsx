@@ -73,7 +73,7 @@ export const Default: Story = {
   args: {
     columns,
     data,
-    keyExtractor: (row) => row.id, 
+    keyExtractor: (row ) => row.id, 
     variant: "default",
     size: "md",
     theme: "light",
@@ -84,7 +84,7 @@ export const Striped: Story = {
   args: {
     columns,
     data,
-    keyExtractor: (row) => row.id,
+    keyExtractor: (row: User) => row.id,
     variant: "striped",
     size: "md",
     theme: "light",
