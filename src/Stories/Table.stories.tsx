@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import Table from "../components/Table/Table"
 
-interface User {
+interface User extends Record<string, unknown> {
   id: string;
   name: string;
   email: string;
@@ -11,7 +11,7 @@ interface User {
 
 const meta = {
   title: "Component/Table",
-  component: Table<User>, // ✅ tell Storybook this Table is for User rows
+  component: Table<User>, 
   parameters: {
     layout: "centered",
   },
