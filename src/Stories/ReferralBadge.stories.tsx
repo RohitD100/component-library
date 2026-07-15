@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import ReferralBadge from '../components/ReferralBadge/ReferralBadge';
 
 const meta = {
-  title: 'Example/ReferralBadge',
+  title: 'Component/ReferralBadge',
   component: ReferralBadge,
   parameters: {
     layout: 'centered',

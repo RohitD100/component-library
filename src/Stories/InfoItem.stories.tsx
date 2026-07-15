@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import InfoItem from '../components/InfoItem/InfoItem';
 
 const meta = {
-  title: 'Example/InfoItem',
+  title: 'Component/InfoItem',
   component: InfoItem,
   parameters: {
     layout: 'centered',

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import DatePicker from '../components/DatePicker/DatePicker';
 
 const meta = {
-  title: 'Example/DatePicker',
+  title: 'Component/DatePicker',
   component: DatePicker,
   parameters: {
     layout: 'centered',

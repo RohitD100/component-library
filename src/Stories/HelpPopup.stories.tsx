@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import HelpPopup from '../components/HelpPopup/HelpPopup';
 
 const meta = {
-  title: 'Example/HelpPopup',
+  title: 'Component/HelpPopup',
   component: HelpPopup,
   parameters: {
     layout: 'centered',

@@ -36,7 +36,7 @@ export const DarkWithImage: Story = {
   args: {
     title: 'Dark Card',
     description: 'This is a dark variant card with an image.',
-    imageUrl: 'https://placekitten.com/400/200',
+    imageUrl: 'https://picsum.photos/400/200',
     badge: 'Featured',
     badgeVariant: 'default',
     variant: 'dark',

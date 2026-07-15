@@ -4,7 +4,7 @@ import { Icons } from '../components/Icon/IconsSvg';
 import type { IconName } from '../components/Icon/types';
 
 const meta = {
-  title: 'Example/Icon',
+  title: 'Component/Icon',
   component: Icon,
   parameters: {
     layout: 'centered',
