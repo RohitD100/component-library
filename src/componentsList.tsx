@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useState } from "react";
 import Button from "./components/Button/Button";
 import { CircularLoader } from "./components/CircularLoader/CircularLoader";
