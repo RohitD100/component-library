@@ -552,7 +552,49 @@ export const components = [
     ),
   },
   {
-    name: "TableWithPagination",
+    name: "Pagination Button",
+    render: () => (
+      <div className="flex items-center gap-1">
+        <Button
+          size="sm"
+          variant="ghost"
+          content="◀"
+          onClick={() => console.log("Prev clicked!")}
+          className="!rounded !px-2 !py-1 !shadow-none"
+        />
+        <Button
+          size="sm"
+          variant="ghost"
+          content="1"
+          onClick={() => console.log("Page 1 clicked!")}
+          className="!rounded !min-w-[28px] !px-2 !py-1 !shadow-none"
+        />
+        <Button
+          size="sm"
+          variant="ghostActive"
+          content="2"
+          onClick={() => console.log("Page 2 clicked!")}
+          className="!rounded !min-w-[28px] !px-2 !py-1 !shadow-none"
+        />
+        <Button
+          size="sm"
+          variant="ghost"
+          content="3"
+          onClick={() => console.log("Page 3 clicked!")}
+          className="!rounded !min-w-[28px] !px-2 !py-1 !shadow-none"
+        />
+        <Button
+          size="sm"
+          variant="ghost"
+          content="▶"
+          onClick={() => console.log("Next clicked!")}
+          className="!rounded !px-2 !py-1 !shadow-none"
+        />
+      </div>
+    ),
+  },
+  {
+  name: "TableWithPagination",
       render: () => {
         type Row = {
           label: string;

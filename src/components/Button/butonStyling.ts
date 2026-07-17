@@ -9,6 +9,12 @@ export const variantStyles = {
         "bg-gradient-to-r from-purple-500 to-cyan-500 hover:from-purple-600 hover:to-cyan-600 text-white shadow-sm hover:shadow-md transition-shadow",
     secondary: "bg-gray-500 hover:bg-gray-600 text-white focus:ring-gray-400",
     danger: "bg-red-500 hover:bg-red-600 text-white focus:ring-red-400",
+
+    // Used for pagination nav 
+    ghost: "bg-transparent text-gray-600 hover:bg-violet-100 focus:ring-violet-300",
+
+    // Used for active page number in pagination
+    ghostActive: "bg-violet-600 text-white font-semibold hover:bg-violet-700 focus:ring-violet-400",
 } as const;
 
 export const baseButtonStyle =
