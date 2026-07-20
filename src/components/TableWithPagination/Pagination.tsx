@@ -1,6 +1,6 @@
-
 import type { PaginationProps } from "./type";
 import { getPageList } from "./helper";
+import Button from "../Button/Button";
 import {
   footerStyle,
   footerInfoStyle,
@@ -8,9 +8,6 @@ import {
   navStyle,
   navListStyle,
   navEllipsisStyle,
-  pageBtnBaseStyle,
-  pageBtnStateVariants,
-  pageBtnPrevNextStyle,
 } from "./TablePaginationStyle";
 
 // ── Pagination Footer Component ──────────────────────────
@@ -33,14 +30,13 @@ export function Pagination({
         <ul className={navListStyle}>
           {/* Previous button */}
           <li>
-            <button
+            <Button
+              size="sm"
+              variant="ghost"
+              content="◀"
               onClick={() => onPageChange(currentPage - 1)}
               disabled={currentPage === 1}
-              className={pageBtnPrevNextStyle}
-              aria-label="Previous page"
-            >
-              ◀
-            </button>
+            />
           </li>
 
           {/* Page number buttons */}
@@ -49,32 +45,25 @@ export function Pagination({
               {page === "ellipsis" ? (
                 <span className={navEllipsisStyle}>…</span>
               ) : (
-                <button
+                <Button
+                  size="sm"
+                  variant={currentPage === page ? "ghostActive" : "ghost"}
+                  content={page}
                   onClick={() => onPageChange(page)}
-                  className={`${pageBtnBaseStyle} ${
-                    currentPage === page
-                      ? pageBtnStateVariants.active
-                      : pageBtnStateVariants.default
-                  }`}
-                  aria-label={`Go to page ${page}`}
-                  aria-current={currentPage === page ? "page" : undefined}
-                >
-                  {page}
-                </button>
+                />
               )}
             </li>
           ))}
 
           {/* Next button */}
           <li>
-            <button
+            <Button
+              size="sm"
+              variant="ghost"
+              content="▶"
               onClick={() => onPageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
-              className={pageBtnPrevNextStyle}
-              aria-label="Next page"
-            >
-              ▶
-            </button>
+            />
           </li>
         </ul>
       </nav>
