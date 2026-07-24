@@ -4,6 +4,11 @@ import Button from "./components/Button/Button";
 import { CircularLoader } from "./components/CircularLoader/CircularLoader";
 import { LinearLoader } from "./components/LinearLoader/LinearLoader";
 import Input from "./components/Input/Input";
+import BaseModal from "./components/ModalComponents/BaseModal";
+import ConfirmationModal from "./components/ModalComponents/ConfirmationModal";
+import InformationModal from "./components/ModalComponents/InformationModal";
+import ErrorModal from "./components/ModalComponents/ErrorModal";
+import FormModal from "./components/ModalComponents/FormModal";
 import Alert from "./components/Alert/Alert";
 import Avatar from "./components/Avatar/Avatar";
 import ReferralBadge from "./components/ReferralBadge/ReferralBadge";
@@ -21,6 +26,89 @@ import TablePagination , {type Column} from "./components/TableWithPagination/Ta
 import Icon from "./components/Icon/Icon";
 import Link from "./components/Link/Link";
 
+const BaseModalExample = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Open Base Modal</button>
+      <BaseModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+        <h2 style={{ fontSize: 16, fontWeight: 500 }}>Base Modal</h2>
+        <p>This is the base modal content.</p>
+      </BaseModal>
+    </>
+  );
+};
+
+const ConfirmationModalExample = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Delete Project Alpha</button>
+      <ConfirmationModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        message="Are you sure you want to delete Project Alpha?"
+        onConfirm={async () => {
+          await new Promise(r => setTimeout(r,1500));
+          setIsOpen(false);
+        }}
+      />
+    </>
+  );
+};
+
+const InformationModalExample = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>View Terms & Conditions</button>
+      <InformationModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onAccept={() => {
+          console.log("Terms accepted!");
+          setIsOpen(false);
+        }}
+      />
+    </>
+  );
+};
+
+const ErrorModalExample = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Show Error</button>
+      <ErrorModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        errorMessage="Failed to save your data. Please try again."
+        onRetry={async () => {
+          await new Promise(r => setTimeout(r,1500));
+          setIsOpen(false);
+        }}
+      />
+    </>
+  );
+};
+
+const FormModalExample = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>Show Form</button>
+      <FormModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onSubmit={async (name:string,email:string)=>{
+          console.log(name,email);
+          await new Promise(r=>setTimeout(r,1500));
+          setIsOpen(false);
+        }}
+      />
+    </>
+  );
+};
 
 const frameworkOptions = [
   { label: "React", value: "react" },
@@ -253,6 +341,11 @@ export const components = [
       <Input placeholder="Enter text here" value="" onChange={() => {}} />
     ),
   },
+  { name: "Base Modal", render: () => <BaseModalExample /> },
+  { name: "Confirmation Modal", render: () => <ConfirmationModalExample /> },
+  { name: "Information Modal", render: () => <InformationModalExample /> },
+  { name: "Error Modal", render: () => <ErrorModalExample /> },
+  { name: "Form Modal", render: () => <FormModalExample /> },
   {
     name: "Alert",
     render: () => (
@@ -489,13 +582,9 @@ export const components = [
         <Icon icon="house" size="lg" />
         <Icon icon="ghost" size="xl" />
         <Icon icon="menu" size="2xl" />
-
-        {/* Custom colors */}
         <Icon icon="draw" size="md" color="#8b5cf6" />
         <Icon icon="lock" size="md" color="#ef4444" />
         <Icon icon="house" size="md" color="#22c55e" />
-
-        {/* Tailwind color class */}
         <Icon icon="logOut" size="lg" colorClass="text-indigo-400" />
         <Icon icon="reload" size="lg" colorClass="text-orange-400" />
       </div>
