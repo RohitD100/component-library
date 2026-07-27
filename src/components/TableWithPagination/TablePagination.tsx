@@ -5,6 +5,8 @@ import {
   cardStyle,
   scrollContainerStyle,
   tableStyle,
+  emptyCellStyle,
+  emptyTextStyle,
 } from "./TablePaginationStyle";
 import { substringSearch, mergeSort } from "./helper";
 import { Search } from "./Search";
@@ -125,8 +127,8 @@ function TablePagination<T>({
             <tbody>
               {paginatedData.length === 0 ? (
                 <tr>
-                  <td colSpan={columns.length + (select ? 1 : 0)}>
-                    <p>{emptyState}</p>
+                  <td colSpan={columns.length + (select ? 1 : 0)} className={emptyCellStyle}>
+                    <p className={emptyTextStyle}>{emptyState}</p>
                   </td>
                 </tr>
               ) : (
